@@ -1,4 +1,3 @@
-import { expect } from "jsr:@std/expect";
 // @deno-types="npm:@types/jsdom"
 import { JSDOM } from "npm:jsdom";
 import { Pai } from "../pai/pai.ts";
@@ -10,7 +9,31 @@ type state = {
   kyoku: number;
 };
 
-export const fixtures = async () => {
+type params = {
+  paiBakaze: Pai;
+  paiJikaze: Pai;
+  paiDora: Pai[];
+  paiDoraUra: Pai[];
+  paiRest: Pai[];
+  paiLast: Pai;
+  paiSets: PaiSet[];
+  yakus: { str: string; val: number }[];
+  options: {
+    isTsumo: boolean;
+    isRichi: boolean;
+    isIppatsu: boolean;
+    isHaitei: boolean;
+    isHoutei: boolean;
+    isChankan: boolean;
+    isRinshankaiho: boolean;
+  };
+};
+
+export const fixtures = async (
+  func: (arg0: params) => void,
+  limit: number = 1_000_000_000,
+) => {
+  let cnt = 0;
   for await (const d of Deno.readDir("./fixtures/")) {
     for await (const f of Deno.readDir(`./fixtures/${d.name}`)) {
       const text = await Deno.readTextFile(
@@ -34,14 +57,19 @@ export const fixtures = async () => {
             break;
           case "AGARI":
             if (state.isYonmaAriAriAka) {
-              _agari(e, state);
+              _agari(e, state, func);
+              cnt += 1;
             }
             break;
         }
       }
+      if (cnt >= limit) {
+        break;
+      }
+    }
+    if (cnt >= limit) {
       break;
     }
-    break;
   }
 };
 
@@ -67,7 +95,7 @@ const _init = (e: Element, s: state): state => {
   return { ...s, kyoku, oya };
 };
 
-const _agari = (e: Element, s: state) => {
+const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   const attrs: { [key: string]: string } = {};
   for (let i = 0; i < e.attributes.length; i++) {
     const attr = e.attributes[i];
@@ -93,17 +121,19 @@ const _agari = (e: Element, s: state) => {
     });
   }
   const yakus: { str: string; val: number }[] = [];
-  if (attrs["yaku"]) {
-    const a = attrs["yaku"].split(",");
+  if (attrs["yaku"] || attrs["yakuman"]) {
+    const a = (attrs["yaku"] ?? attrs["yakuman"]).split(",");
     for (let i = 0; i < a.length; i += 2) {
       yakus.push({ str: constantYakus[Number(a[i])], val: Number(a[i + 1]) });
     }
   }
   const isTsumo = attrs["who"] == attrs["fromWho"];
   const isIppatsu = yakus.some((e) => e.str == "一発");
-  const isRiichi = yakus.some((e) => e.str == "立直");
+  const isRichi = yakus.some((e) => e.str == "立直");
   const isHaitei = yakus.some((e) => e.str == "海底摸月");
   const isHoutei = yakus.some((e) => e.str == "河底撈魚");
+  const isChankan = yakus.some((e) => e.str == "槍槓");
+  const isRinshankaiho = yakus.some((e) => e.str == "嶺上開花");
 
   const paiSets: PaiSet[] = [];
   if (attrs["m"]) {
@@ -116,8 +146,25 @@ const _agari = (e: Element, s: state) => {
     attrs["hai"].split(",").map((e: string) => new Pai(Number(e))) ??
       [];
 
-  console.log(paiBakaze, paiJikaze, paiDora, paiDoraUra);
-  console.log(paiRest, paiSets, paiLast, yakus);
+  f({
+    paiBakaze,
+    paiJikaze,
+    paiDora,
+    paiDoraUra,
+    paiRest,
+    paiSets,
+    paiLast,
+    yakus,
+    options: {
+      isTsumo,
+      isRichi,
+      isIppatsu,
+      isHaitei,
+      isHoutei,
+      isChankan,
+      isRinshankaiho,
+    },
+  });
 };
 
 const _parseM = (m: number): PaiSet => {
