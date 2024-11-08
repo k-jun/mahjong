@@ -3,20 +3,7 @@ import { expect } from "jsr:@std/expect";
 // import { yakus as constantYakus } from "../constant/constant.ts";
 import { fixtures } from "../utils/utils.ts";
 import { Chitoitsu, Kokushimuso, NewWinForm } from "../winform/winform.ts";
-import {
-    isChankan,
-    isHaitei,
-    isHoutei,
-    isIppatsu,
-    isPinfu,
-    isRichi,
-    isRinshankaiho,
-    isIpeko,
-    isRyampeko,
-    isSananko,
-    isTanyao,
-    isTsumo,
-} from "./yaku.ts";
+import * as yaku from "./yaku.ts";
 
 Deno.test("isRichi", async () => {
     await fixtures((params) => {
@@ -26,7 +13,7 @@ Deno.test("isRichi", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isRichi({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isRichi({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -42,7 +29,7 @@ Deno.test("isPinfu", async () => {
             if (e instanceof Chitoitsu || e instanceof Kokushimuso) {
                 return false;
             }
-            return isPinfu({ ...params, ...e }).length !== 0;
+            return yaku.isPinfu({ ...params, ...e }).length !== 0;
         });
         expect(act).toBe(exp);
     }, 100);
@@ -56,7 +43,7 @@ Deno.test("isIppatsu", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isIppatsu({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isIppatsu({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -69,7 +56,7 @@ Deno.test("isHaitei", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isHaitei({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isHaitei({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -82,7 +69,7 @@ Deno.test("isHoutei", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isHoutei({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isHoutei({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -95,7 +82,7 @@ Deno.test("isTsumo", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isTsumo({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isTsumo({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -108,7 +95,7 @@ Deno.test("isTanyao", async () => {
             exp = true;
         }
         const act = wins.some((e) => {
-            return isTanyao({ ...params, ...e }).length !== 0;
+            return yaku.        isTanyao({ ...params, ...e }).length !== 0;
         });
 
         if (act != exp) {
@@ -126,7 +113,7 @@ Deno.test("isChankan", async () => {
         if (params.yakus.map((e) => e.str).includes("槍槓")) {
             exp = true;
         }
-        expect(wins.some((e) => isChankan({ ...params, ...e }).length !== 0))
+        expect(wins.some((e) => yaku.isChankan({ ...params, ...e }).length !== 0))
             .toBe(exp);
     }, 100);
 });
@@ -139,7 +126,7 @@ Deno.test("isRinshankaiho", async () => {
             exp = true;
         }
         expect(
-            wins.some((e) => isRinshankaiho({ ...params, ...e }).length !== 0),
+            wins.some((e) => yaku.isRinshankaiho({ ...params, ...e }).length !== 0),
         ).toBe(exp);
     }, 100);
 });
@@ -151,9 +138,9 @@ Deno.test("isRyampeko", async () => {
         if (params.yakus.map((e) => e.str).includes("二盃口")) {
             exp = true;
         }
-        expect(wins.some((e) => isRyampeko({ ...params, ...e }).length !== 0))
+        expect(wins.some((e) => yaku.isRyampeko({ ...params, ...e }).length !== 0))
             .toBe(exp);
-    });
+    }, 100);
 });
 
 Deno.test("isIpeko", async () => {
@@ -163,10 +150,10 @@ Deno.test("isIpeko", async () => {
         if (params.yakus.map((e) => e.str).includes("一盃口")) {
             exp = true;
         }
-        const act = wins.some((e) => isIpeko({ ...params, ...e }).length !== 0);
+        const act = wins.some((e) => yaku.isIpeko({ ...params, ...e }).length !== 0);
         if (act != exp) {
             // NOTE: 一盃口として扱わないほうが点数が高い場合があるので、除外する。
-            if (wins.some((e) => isSananko({ ...params, ...e }).length !== 0)) {
+            if (wins.some((e) => yaku.isSananko({ ...params, ...e }).length !== 0)) {
                 return;
             }
 
@@ -185,7 +172,7 @@ Deno.test("isSananko", async () => {
             exp = true;
         }
         const act = wins.some((e) =>
-            isSananko({ ...params, ...e }).length !== 0
+            yaku.isSananko({ ...params, ...e }).length !== 0
         );
         if (act != exp) {
             console.log(`act: ${act}, exp: ${exp}`);
@@ -193,4 +180,289 @@ Deno.test("isSananko", async () => {
         }
         expect(act).toBe(exp);
     }, 100);
+});
+
+Deno.test("isBakaze", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes(`場風 ${params.paiBakaze.dsp}`)) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isBakaze({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isJikaze", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes(`自風 ${params.paiJikaze.dsp}`)) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isJikaze({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isHaku", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("役牌 白")) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isHaku({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isHatsu", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("役牌 發")) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isHatsu({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isChun", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("役牌 中")) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isChun({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isDabururichi", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("両立直")) {
+            exp = true;
+        }
+        expect(wins.some((e) => yaku.isDabururichi({ ...params, ...e }).length !== 0))
+            .toBe(exp);
+    }, 100);
+}); 
+
+Deno.test("isChanta", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("混全帯幺九")) {
+            exp = true;
+        }
+        let act = wins.some((e) => yaku.isChanta({ ...params, ...e }).length !== 0)
+
+        if (act != exp) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    }, 10000);
+}); 
+
+Deno.test("isShosushi", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("小四喜")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isShosushi({ ...params, ...e }).length !== 0);
+        if (act != exp) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    }, 10000);
+}); 
+
+Deno.test("isDaisushi", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("大四喜")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isDaisushi({ ...params, ...e }).length !== 0);
+        if (exp) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});     
+
+Deno.test("isSuanko", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("四暗刻")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isSuanko({ ...params, ...e }).length !== 0);
+        if (exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});  
+
+Deno.test("isSuankotanki", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("四暗刻単騎")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isSuankotanki({ ...params, ...e }).length !== 0);
+        if (exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});  
+
+Deno.test("isDaisangen", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("大三元")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isDaisangen({ ...params, ...e }).length !== 0);
+        expect(act).toBe(exp);
+    });
+});  
+
+Deno.test("isTsuiso", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("字一色")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isTsuiso({ ...params, ...e }).length !== 0);
+        if (exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});  
+
+Deno.test("isRyuiso", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("緑一色")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isRyuiso({ ...params, ...e }).length !== 0);
+        if (exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isChiho", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("地和")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isChiho({ ...params, ...e }).length !== 0);
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isTenho", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("天和")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isTenho({ ...params, ...e }).length !== 0);
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isChinroto", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("清老頭")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isChinroto({ ...params, ...e }).length !== 0);
+        if (exp || act != exp) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isChurempoto", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("九蓮宝燈")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isChurempoto({ ...params, ...e }).length !== 0);
+        if (exp || exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isJunseichurempoto", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("純正九蓮宝燈")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isJunseichurempoto({ ...params, ...e }).length !== 0);
+        if (exp || exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
+});
+
+Deno.test("isSukantsu", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+        let exp = false;
+        if (params.yakus.map((e) => e.str).includes("四槓子")) {
+            exp = true;
+        }
+        const act = wins.some((e) => yaku.isSukantsu({ ...params, ...e }).length !== 0);
+        if (exp != act) {
+            console.log(`act: ${act}, exp: ${exp}`);
+            console.log(params);
+        }
+        expect(act).toBe(exp);
+    });
 });

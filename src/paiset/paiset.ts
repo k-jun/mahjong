@@ -81,38 +81,34 @@ export class PaiSet {
     }
   }
   isOpen() {
-    if (
-      [
-        PaiSetType.ANSHUN,
-        PaiSetType.ANKAN,
-        PaiSetType.ANKO,
-      ].includes(this.type)
-    ) {
-      return false;
-    }
-    return true;
+    return [
+      PaiSetType.ANSHUN,
+      PaiSetType.ANKAN,
+      PaiSetType.ANKO,
+    ].includes(this.type);
   }
 
   isClose() {
-    return !this.isOpen()
+    return !this.isOpen();
   }
 
   isKotsu() {
-    if (
-      [
-        PaiSetType.ANKAN,
-        PaiSetType.ANKO,
-        PaiSetType.MINKAN,
-        PaiSetType.MINKO,
-        PaiSetType.KAKAN,
-      ].includes(this.type)
-    ) {
-      return true;
-    }
-    return false;
+    return [
+      PaiSetType.ANKAN,
+      PaiSetType.ANKO,
+      PaiSetType.MINKAN,
+      PaiSetType.MINKO,
+      PaiSetType.KAKAN,
+    ].includes(this.type);
   }
 
   isShuntsu() {
     return !this.isKotsu();
+  }
+
+  isKantsu() {
+    return [PaiSetType.KAKAN, PaiSetType.MINKAN, PaiSetType.ANKAN].includes(
+      this.type,
+    );
   }
 }

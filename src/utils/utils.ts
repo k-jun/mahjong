@@ -21,11 +21,14 @@ type params = {
   options: {
     isTsumo: boolean;
     isRichi: boolean;
+    isDabururichi: boolean;
     isIppatsu: boolean;
     isHaitei: boolean;
     isHoutei: boolean;
     isChankan: boolean;
     isRinshankaiho: boolean;
+    isChiho: boolean;
+    isTenho: boolean;
   };
 };
 
@@ -130,10 +133,13 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   const isTsumo = attrs["who"] == attrs["fromWho"];
   const isIppatsu = yakus.some((e) => e.str == "一発");
   const isRichi = yakus.some((e) => e.str == "立直");
+  const isDabururichi = yakus.some((e) => e.str == "両立直");
   const isHaitei = yakus.some((e) => e.str == "海底摸月");
   const isHoutei = yakus.some((e) => e.str == "河底撈魚");
   const isChankan = yakus.some((e) => e.str == "槍槓");
   const isRinshankaiho = yakus.some((e) => e.str == "嶺上開花");
+  const isChiho = yakus.some((e) => e.str == "地和");
+  const isTenho = yakus.some((e) => e.str == "天和");
 
   const paiSets: PaiSet[] = [];
   if (attrs["m"]) {
@@ -158,11 +164,14 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     options: {
       isTsumo,
       isRichi,
+      isDabururichi,
       isIppatsu,
       isHaitei,
       isHoutei,
       isChankan,
       isRinshankaiho,
+      isChiho,
+        isTenho,
     },
   });
 };

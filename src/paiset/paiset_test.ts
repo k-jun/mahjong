@@ -102,3 +102,21 @@ Deno.test("PaiSet isKotsu/isShuntsu", () => {
   expect(shuntsuSet.isKotsu()).toBe(false);
   expect(shuntsuSet.isShuntsu()).toBe(true);
 });
+
+Deno.test("PaiSet isKantsu", () => {
+  const kantsuSet = new PaiSet({
+    pais: [new Pai(0), new Pai(1), new Pai(2), new Pai(3)],
+    type: PaiSetType.KAKAN,
+    nakiIdx: -1,
+    fromWho: Player.JICHA
+  });
+  expect(kantsuSet.isKantsu()).toBe(true);
+
+  const notKantsuSet = new PaiSet({
+    pais: [new Pai(0), new Pai(1), new Pai(2)],
+    type: PaiSetType.MINSHUN,
+    nakiIdx: -1,
+    fromWho: Player.JICHA
+  });
+  expect(notKantsuSet.isKantsu()).toBe(false);
+});
