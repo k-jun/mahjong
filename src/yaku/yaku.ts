@@ -168,8 +168,6 @@ export const isSananko = ({ options, paiSets, paiLast }: params): yaku[] => {
         );
         if (x) {
             x.type = PaiSetType.MINKO;
-        } else {
-            throw new Error("Not Found ANKO");
         }
     }
 
@@ -227,13 +225,9 @@ export const isDabururichi = ({ options }: params): yaku[] => {
     return [{ str: "両立直", val: 2 }];
 };
 
-export const isChanta = (params: params): yaku[] => {
-    const { paiHead, paiSets } = params;
+export const isChanta = ({ paiHead, paiSets }: params): yaku[] => {
     if (paiHead.length == 0) return [];
 
-    if (isJunchan(params).length > 0) {
-        return [];
-    }
     if (
         paiHead.every((e) => e.isYaochuHai()) &&
         paiSets.every((e) => e.pais.some((e) => e.isYaochuHai()))
@@ -244,11 +238,12 @@ export const isChanta = (params: params): yaku[] => {
 };
 
 export const isJunchan = ({ paiSets, paiHead }: params): yaku[] => {
+    if (paiHead.length == 0) return [];
     if (
         paiHead.every((e) => e.num == 1 || e.num == 9) &&
         paiSets.every((e) => e.pais.some((e) => e.num == 1 || e.num == 9))
     ) {
-        return [{ str: "純全帯么九", val: 1 }];
+        return [{ str: "純全帯幺九", val: 1 }];
     }
     return [];
 };
@@ -333,7 +328,9 @@ export const isRyuiso = ({ paiSets, paiHead }: params): yaku[] => {
     if (paiHead.length == 0) return [];
 
     const all = [...paiSets.map((e) => e.pais).flat(), ...paiHead];
-    if (all.every((e) => ["發", "s2", "s3", "s4", "s6", "s8"].includes(e.dsp))) {
+    if (
+        all.every((e) => ["發", "s2", "s3", "s4", "s6", "s8"].includes(e.dsp))
+    ) {
         return [{ str: "緑一色", val: 1, yakuman: true }];
     }
     return [];
@@ -372,7 +369,8 @@ export const isChurempoto = ({ paiSets, paiHead, paiLast }: params): yaku[] => {
         for (const e of x) {
             map[e.num] = (map[e.num] || 0) + 1;
         }
-        if ([1, 2, 3, 4, 5, 6, 7, 8, 9].every((e) => (map[e] ?? 0) >= 1) &&
+        if (
+            [1, 2, 3, 4, 5, 6, 7, 8, 9].every((e) => (map[e] ?? 0) >= 1) &&
             [1, 9].every((e) => (map[e] ?? 0) == 3) &&
             [2, 3, 4, 5, 6, 7, 8].some((e) => (map[e] ?? 0) == 2)
         ) {
@@ -385,7 +383,9 @@ export const isChurempoto = ({ paiSets, paiHead, paiLast }: params): yaku[] => {
     return [];
 };
 
-export const isJunseichurempoto = ({ paiSets, paiHead, paiLast }: params): yaku[] => {
+export const isJunseichurempoto = (
+    { paiSets, paiHead, paiLast }: params,
+): yaku[] => {
     const all = [...paiSets.map((e) => e.pais).flat(), ...paiHead];
     const am = all.filter((e) => e.typ == PaiType.MANZU);
     const ap = all.filter((e) => e.typ == PaiType.PINZU);
@@ -398,7 +398,8 @@ export const isJunseichurempoto = ({ paiSets, paiHead, paiLast }: params): yaku[
         for (const e of x) {
             map[e.num] = (map[e.num] || 0) + 1;
         }
-        if ([1, 2, 3, 4, 5, 6, 7, 8, 9].every((e) => (map[e] ?? 0) >= 1) &&
+        if (
+            [1, 2, 3, 4, 5, 6, 7, 8, 9].every((e) => (map[e] ?? 0) >= 1) &&
             [1, 9].every((e) => (map[e] ?? 0) == 3) &&
             [2, 3, 4, 5, 6, 7, 8].some((e) => (map[e] ?? 0) == 2)
         ) {
@@ -414,6 +415,142 @@ export const isSukantsu = ({ paiSets }: params): yaku[] => {
     const kantsu = paiSets.filter((e) => e.isKantsu());
     if (kantsu.length == 4) {
         return [{ str: "四槓子", val: 1, yakuman: true }];
+    }
+    return [];
+};
+
+export const isChinitsu = ({ paiSets, paiHead, pais }: params): yaku[] => {
+    const all = [
+        ...paiSets.map((e) => e.pais).flat(),
+        ...paiHead,
+        ...(pais ?? []),
+    ];
+    if (
+        all.every((e) => e.typ == PaiType.MANZU) ||
+        all.every((e) => e.typ == PaiType.PINZU) ||
+        all.every((e) => e.typ == PaiType.SOUZU)
+    ) {
+        return [{ str: "清一色", val: 1 }];
+    }
+    return [];
+};
+
+export const isHonitsu = ({ paiSets, paiHead, pais }: params): yaku[] => {
+    const all = [
+        ...paiSets.map((e) => e.pais).flat(),
+        ...paiHead,
+        ...(pais ?? []),
+    ];
+    if (
+        all.every((e) => e.typ == PaiType.MANZU || e.isJihai()) ||
+        all.every((e) => e.typ == PaiType.PINZU || e.isJihai()) ||
+        all.every((e) => e.typ == PaiType.SOUZU || e.isJihai())
+    ) {
+        return [{ str: "混一色", val: 1 }];
+    }
+    return [];
+};
+
+export const isSankantsu = ({ paiSets }: params): yaku[] => {
+    const kantsu = paiSets.filter((e) => e.isKantsu());
+    if (kantsu.length == 3) {
+        return [{ str: "三槓子", val: 1 }];
+    }
+    return [];
+};
+
+export const isHonroto = ({ paiSets, paiHead, pais }: params): yaku[] => {
+    const all = [
+        ...paiSets.map((e) => e.pais).flat(),
+        ...paiHead,
+        ...(pais ?? []),
+    ];
+
+    if (all.every((e) => e.isJihai() || e.num == 1 || e.num == 9)) {
+        return [{ str: "混老頭", val: 1 }];
+    }
+    return [];
+};
+
+export const isShosangen = ({ paiSets, paiHead }: params): yaku[] => {
+    if (paiHead.length == 0) return [];
+
+    const all: Array<Array<Pai>> = [...paiSets.map((e) => e.pais), paiHead];
+    const map: Record<string, boolean> = {};
+    for (const set of all) {
+        map[set[0].dsp] = true;
+    }
+    if (["白", "發", "中"].every((y) => map[y])) {
+        return [{ str: "小三元", val: 1 }];
+    }
+    return [];
+};
+
+export const isIkkitsukan = ({ paiSets }: params): yaku[] => {
+    const shuntsu = paiSets.filter((e) => e.isShuntsu());
+    const sm = shuntsu.filter((e) => e.pais[0].typ == PaiType.MANZU);
+    const sp = shuntsu.filter((e) => e.pais[0].typ == PaiType.PINZU);
+    const ss = shuntsu.filter((e) => e.pais[0].typ == PaiType.SOUZU);
+
+    for (const x of [sm, sp, ss]) {
+        if (
+            x.find((e) => e.pais[0].num == 1) &&
+            x.find((e) => e.pais[0].num == 4) &&
+            x.find((e) => e.pais[0].num == 7)
+        ) {
+            return [{ str: "一気通貫", val: 1 }];
+        }
+    }
+    return [];
+};
+
+export const isSanshokudojun = ({ paiSets }: params): yaku[] => {
+    const shuntsu = paiSets.filter((e) => e.isShuntsu());
+    const sm = shuntsu.filter((e) => e.pais[0].typ == PaiType.MANZU);
+    const sp = shuntsu.filter((e) => e.pais[0].typ == PaiType.PINZU);
+    const ss = shuntsu.filter((e) => e.pais[0].typ == PaiType.SOUZU);
+    for (const m of sm) {
+        for (const p of sp) {
+            for (const s of ss) {
+                if (
+                    m.pais[0].num == p.pais[0].num &&
+                    m.pais[0].num == s.pais[0].num
+                ) {
+                    return [{ str: "三色同順", val: 1 }];
+                }
+            }
+        }
+    }
+
+    return [];
+};
+
+export const isSanshokudokoku = ({ paiSets }: params): yaku[] => {
+    const kotsus = paiSets.filter((e) => e.isKotsu());
+    const km = kotsus.filter((e) => e.pais[0].typ == PaiType.MANZU);
+    const kp = kotsus.filter((e) => e.pais[0].typ == PaiType.PINZU);
+    const ks = kotsus.filter((e) => e.pais[0].typ == PaiType.SOUZU);
+
+    for (const m of km) {
+        for (const p of kp) {
+            for (const s of ks) {
+                if (
+                    m.pais[0].num == p.pais[0].num &&
+                    m.pais[0].num == s.pais[0].num
+                ) {
+                    return [{ str: "三色同刻", val: 1 }];
+                }
+            }
+        }
+    }
+
+    return [];
+};
+
+export const isToitoiho = ({ paiSets }: params): yaku[] => {
+    const kotsus = paiSets.filter((e) => e.isKotsu());
+    if (kotsus.length == 4) {
+        return [{ str: "対々和", val: 1 }];
     }
     return [];
 };

@@ -81,7 +81,7 @@ export class PaiSet {
     }
   }
   isOpen() {
-    return [
+    return ![
       PaiSetType.ANSHUN,
       PaiSetType.ANKAN,
       PaiSetType.ANKO,

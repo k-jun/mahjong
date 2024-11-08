@@ -29,6 +29,9 @@ export class Pai {
     }
   }
   get num(): number {
+    if (this.typ == PaiType.JIHAI) {
+      return 0;
+    }
     if (this.val[1] == "r") {
       return 5;
     }
@@ -36,7 +39,10 @@ export class Pai {
   }
 
   get fmt(): string {
-    return this.typ + this.num.toString();
+    if (this.val[1] == "r") {
+      return this.typ + "5";
+    }
+    return this.val;
   }
 
   get dsp(): string {
