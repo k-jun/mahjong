@@ -12,5 +12,5 @@ Deno.test("NewWinForm", async () => {
       console.log(wins.map((e) => e.paiSets.map((e) => e.pais.map((e) => e.val))));
     }
     expect(wins.length != 0).toBe(true);
-  }, 100);
+  }, 10000);
 });

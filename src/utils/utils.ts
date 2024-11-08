@@ -9,7 +9,7 @@ type state = {
   kyoku: number;
 };
 
-type params = {
+export type params = {
   paiBakaze: Pai;
   paiJikaze: Pai;
   paiDora: Pai[];
@@ -17,7 +17,7 @@ type params = {
   paiRest: Pai[];
   paiLast: Pai;
   paiSets: PaiSet[];
-  yakus: { str: string; val: number }[];
+  yakus: { str: string; val: number; yakuman?: boolean }[];
   options: {
     isTsumo: boolean;
     isRichi: boolean;
@@ -123,13 +123,25 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
       paiDoraUra.push(new Pai(Number(e)).next());
     });
   }
-  const yakus: { str: string; val: number }[] = [];
-  if (attrs["yaku"] || attrs["yakuman"]) {
-    const a = (attrs["yaku"] ?? attrs["yakuman"]).split(",");
+  const yakus: { str: string; val: number; yakuman?: boolean }[] = [];
+  if (attrs["yaku"]) {
+    const a = attrs["yaku"].split(",");
     for (let i = 0; i < a.length; i += 2) {
       yakus.push({ str: constantYakus[Number(a[i])], val: Number(a[i + 1]) });
     }
   }
+
+  if (attrs["yakuman"]) {
+    const a = attrs["yakuman"].split(",");
+    for (let i = 0; i < a.length; i += 2) {
+      yakus.push({
+        str: constantYakus[Number(a[i])],
+        val: Number(a[i + 1]),
+        yakuman: true,
+      });
+    }
+  }
+
   const isTsumo = attrs["who"] == attrs["fromWho"];
   const isIppatsu = yakus.some((e) => e.str == "一発");
   const isRichi = yakus.some((e) => e.str == "立直");
