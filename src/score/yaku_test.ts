@@ -1,7 +1,6 @@
 import { expect } from "jsr:@std/expect";
 import { fixtures, params } from "../utils/utils.ts";
 import { NewWinForm } from "../winform/winform.ts";
-import { Pai } from "../pai/pai.ts";
 import * as yaku from "./yaku.ts";
 
 const checkYaku = (

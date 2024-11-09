@@ -18,6 +18,7 @@ export type params = {
   paiLast: Pai;
   paiSets: PaiSet[];
   yakus: { str: string; val: number; yakuman?: boolean }[];
+  fu: number;
   options: {
     isTsumo: boolean;
     isRichi: boolean;
@@ -29,6 +30,7 @@ export type params = {
     isRinshankaiho: boolean;
     isChiho: boolean;
     isTenho: boolean;
+    isOya: boolean;
   };
 };
 
@@ -154,6 +156,9 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   const isRinshankaiho = yakus.some((e) => e.str == "嶺上開花");
   const isChiho = yakus.some((e) => e.str == "地和");
   const isTenho = yakus.some((e) => e.str == "天和");
+  const isOya = s.oya == Number(attrs["who"]);
+
+  const fu = Number(attrs["ten"]?.split(",")[0]);
 
   const paiSets: PaiSet[] = [];
   if (attrs["m"]) {
@@ -175,6 +180,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     paiSets,
     paiLast,
     yakus,
+    fu,
     options: {
       isTsumo,
       isRichi,
@@ -186,6 +192,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
       isRinshankaiho,
       isChiho,
       isTenho,
+      isOya,
     },
   });
 };

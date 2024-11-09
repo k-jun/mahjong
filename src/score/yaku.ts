@@ -14,6 +14,7 @@ export type params = {
         isRinshankaiho: boolean;
         isChiho: boolean;
         isTenho: boolean;
+        isOya: boolean;
     };
     paiBakaze: Pai;
     paiJikaze: Pai;
