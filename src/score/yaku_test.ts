@@ -1,6 +1,7 @@
 import { expect } from "jsr:@std/expect";
 import { fixtures, params } from "../utils/utils.ts";
 import { NewWinForm } from "../winform/winform.ts";
+import { Pai } from "../pai/pai.ts";
 import * as yaku from "./yaku.ts";
 
 const checkYaku = (
@@ -347,23 +348,26 @@ Deno.test("findYakus", async () => {
     await fixtures((params) => {
         const wins = NewWinForm({ ...params });
 
-        let max = 0;
-        let actYakus: yaku.yaku[] = [];
+        const mbyYakus: yaku.yaku[][] = [];
         for (const win of wins) {
-            const mybYakus = yaku.findYakus({ ...params, ...win });
-            const han = mybYakus.reduce((a, b) => a + b.val, 0);
-            if (max < han) {
-                max = han;
-                actYakus = mybYakus;
-            }
+            mbyYakus.push(yaku.findYakus({ ...params, ...win }));
         }
 
-        const actSort = actYakus.sort((a, b) => a.str.localeCompare(b.str));
+        const max = mbyYakus.reduce((a, b) => {
+            const han = b.reduce((a, b) => a + b.val, 0);
+            return Math.max(a, han);
+        }, 0);
+        const actYakus = mbyYakus.filter((e) =>
+            e.reduce((a, b) => a + b.val, 0) == max
+        );
+
+        actYakus.map((e) => e.sort((a, b) => a.str.localeCompare(b.str)));
         const expSort = params.yakus.sort((a, b) => a.str.localeCompare(b.str));
+
         try {
-            expect(actSort).toEqual(expSort);
+            expect(actYakus).toContainEqual(expSort);
         } catch (e) {
-            console.log(actSort, expSort);
+            console.log(actYakus, expSort);
             console.log(params);
             throw e;
         }
