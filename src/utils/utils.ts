@@ -132,14 +132,16 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   }
 
   if (attrs["yakuman"]) {
-    const a = attrs["yakuman"].split(",");
-    for (let i = 0; i < a.length; i += 2) {
-      yakus.push({
-        str: constantYakus[Number(a[i])],
-        val: Number(a[i + 1]),
-        yakuman: true,
-      });
-    }
+    attrs["yakuman"].split(",").forEach((e) => {
+      const str = constantYakus[Number(e)];
+      let val = 1;
+      if (
+        ["四暗刻単騎", "純正九蓮宝燈", "国士無双１３面", "大四喜"].includes(str)
+      ) {
+        val = 2;
+      }
+      yakus.push({ str, val, yakuman: true });
+    });
   }
 
   const isTsumo = attrs["who"] == attrs["fromWho"];
@@ -183,7 +185,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
       isChankan,
       isRinshankaiho,
       isChiho,
-        isTenho,
+      isTenho,
     },
   });
 };

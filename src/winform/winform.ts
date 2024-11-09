@@ -189,17 +189,18 @@ const findSet = ({ pais }: { pais: Pai[] }): PaiSet[][] => {
 };
 
 export class Chitoitsu extends WinForm {
-  pais: Pai[];
+  paiChitoitsu: Pai[];
   constructor({ pais, paiLast }: { pais: Pai[]; paiLast: Pai }) {
     super({ paiHead: [], paiSets: [], paiLast });
-    this.pais = pais;
+    this.paiChitoitsu = pais;
   }
 }
 
 export class Kokushimuso extends WinForm {
-  pais: Pai[];
+  paiKokushimuso: Pai[];
   constructor({ pais, paiLast }: { pais: Pai[]; paiLast: Pai }) {
     super({ paiHead: [], paiSets: [], paiLast });
-    this.pais = pais;
+    this.paiKokushimuso = pais;
   }
 }
+

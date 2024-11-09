@@ -97,5 +97,8 @@ export class Pai {
     }
     return false;
   }
+  isAka(): boolean {
+    return this.val == "mr" || this.val == "pr" || this.val == "sr";
+  }
 }
 

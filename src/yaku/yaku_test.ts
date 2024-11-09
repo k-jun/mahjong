@@ -231,3 +231,21 @@ Deno.test("isChinitsu", async () => {
         10000,
     );
 });
+
+Deno.test("isDra", async () => {
+    await fixtures((params) => checkYaku(params, "ドラ", yaku.isDra), 10000);
+});
+
+Deno.test("isDraUra", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "裏ドラ", yaku.isDraUra),
+        10000,
+    );
+});
+
+Deno.test("isDoraAka", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "赤ドラ", yaku.isDoraAka),
+        10000,
+    );
+});
