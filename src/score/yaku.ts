@@ -1,5 +1,6 @@
 import { Pai, PaiType } from "../pai/pai.ts";
 import { MachiType, PaiSet, PaiSetType } from "../paiset/paiset.ts";
+import { deepCopy } from "../utils/utils.ts";
 
 export type params = {
     options: {
@@ -299,7 +300,7 @@ export const isSananko = (
         paiSets.filter((e) =>
                 e.type == PaiSetType.ANKO &&
                 e.pais.map((e) => e.fmt).includes(paiLast.fmt)
-            ).length > 0;
+            ).length != 0;
 
     if (!options.isTsumo && noescape) {
         const x = paiSets.find((e) =>
@@ -595,7 +596,11 @@ export const isShosushi = ({ paiSets, paiHead }: params): yaku[] => {
     for (const kotsu of kotsus) {
         map[kotsu[0].dsp] = true;
     }
-    if (["東", "南", "西", "北"].every((e) => map[e])) {
+    const kazes = ["東", "南", "西", "北"]
+    if (
+        kazes.every((e) => map[e]) &&
+        kazes.includes(paiHead[0].dsp)
+    ) {
         return [{ str: "小四喜", val: 1, yakuman: true }];
     }
     return [];
@@ -644,7 +649,7 @@ export const isDraUra = ({
     for (const dora of paiDoraUra) {
         cnt += all.filter((e) => e.fmt == dora.fmt).length;
     }
-    if (cnt > 0) {
+    if (paiDoraUra.length > 0) {
         return [{ str: "裏ドラ", val: cnt }];
     }
     return [];
@@ -663,4 +668,74 @@ export const isDoraAka = (
         return [{ str: "赤ドラ", val: cnt }];
     }
     return [];
+};
+
+export const findYakus = (params: params): yaku[] => {
+    const { paiChitoitsu, paiKokushimuso, paiLast } = params;
+
+    if (paiKokushimuso) {
+        const map: Record<string, number> = {};
+        for (const p of paiKokushimuso) {
+            map[p.fmt] = (map[p.fmt] || 0) + 1;
+        }
+        if (map[paiLast.fmt] == 2) {
+            return [{ str: "国士無双１３面", val: 2, yakuman: true }];
+        }
+        return [
+            { str: "国士無双", val: 1, yakuman: true },
+        ];
+    }
+    const yakuYakuman = [
+        ...isChiho(params),
+        ...isTenho(params),
+        ...isDaisangen(params),
+        ...isSuanko(params),
+        ...isSuankotanki(params),
+        ...isTsuiso(params),
+        ...isRyuiso(params),
+        ...isChinroto(params),
+        ...isChurempoto(params),
+        ...isJunseichurempoto(params),
+        ...isDaisushi(params),
+        ...isShosushi(params),
+        ...isSukantsu(params),
+    ];
+    if (yakuYakuman.length > 0) {
+        return yakuYakuman;
+    }
+    return [
+        ...isTsumo(params),
+        ...isRichi(params),
+        ...isIppatsu(params),
+        ...isChankan(params),
+        ...isRinshankaiho(params),
+        ...isHaitei(params),
+        ...isHoutei(params),
+        ...isPinfu(params),
+        ...isTanyao(params),
+        ...isIpeko(params),
+        ...isJikaze(params),
+        ...isBakaze(params),
+        ...isHaku(params),
+        ...isHatsu(params),
+        ...isChun(params),
+        ...isDabururichi(params),
+        ...(paiChitoitsu ? [{ str: "七対子", val: 2 }] : []),
+        ...isChanta(params),
+        ...isIkkitsukan(params),
+        ...isSanshokudojun(params),
+        ...isSanshokudokoku(params),
+        ...isSankantsu(params),
+        ...isToitoiho(params),
+        ...isSananko(deepCopy(params)),
+        ...isShosangen(params),
+        ...isHonroto(params),
+        ...isRyampeko(params),
+        ...isJunchan(params),
+        ...isHonitsu(params),
+        ...isChinitsu(params),
+        ...isDra(params),
+        ...isDraUra(params),
+        ...isDoraAka(params),
+    ];
 };

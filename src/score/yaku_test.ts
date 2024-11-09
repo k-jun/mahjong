@@ -7,8 +7,9 @@ const checkYaku = (
     params: params,
     name: string,
     yakufunc: (params: yaku.params) => yaku.yaku[],
+    isYakuman: boolean = false,
 ): void => {
-    if (params.yakus.some((e) => e.yakuman)) {
+    if (!isYakuman && params.yakus.some((e) => e.yakuman)) {
         return;
     }
 
@@ -232,6 +233,98 @@ Deno.test("isChinitsu", async () => {
     );
 });
 
+Deno.test("isTenho", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "天和", yaku.isTenho, true),
+        10000,
+    );
+});
+
+Deno.test("isChiho", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "地和", yaku.isChiho, true),
+        10000,
+    );
+});
+
+Deno.test("isDaisangen", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "大三元", yaku.isDaisangen, true),
+        10000,
+    );
+});
+
+Deno.test("isSuanko", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "四暗刻", yaku.isSuanko, true),
+        10000,
+    );
+});
+
+Deno.test("isSankoTanki", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "四暗刻単騎", yaku.isSuankotanki, true),
+        10000,
+    );
+});
+
+Deno.test("isTsuiso", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "字一色", yaku.isTsuiso, true),
+        10000,
+    );
+});
+
+Deno.test("isRyuiso", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "緑一色", yaku.isRyuiso, true),
+        10000,
+    );
+});
+
+Deno.test("isChinroto", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "清老頭", yaku.isChinroto, true),
+        10000,
+    );
+});
+
+Deno.test("isChurempoto", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "九蓮宝燈", yaku.isChurempoto, true),
+        10000,
+    );
+});
+
+Deno.test("isJunseichurempoto", async () => {
+    await fixtures(
+        (params) =>
+            checkYaku(params, "純正九蓮宝燈", yaku.isJunseichurempoto, true),
+        10000,
+    );
+});
+
+Deno.test("isDaisushi", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "大四喜", yaku.isDaisushi, true),
+        10000,
+    );
+});
+
+Deno.test("isShosushi", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "小四喜", yaku.isShosushi, true),
+        10000,
+    );
+});
+
+Deno.test("isSukantsu", async () => {
+    await fixtures(
+        (params) => checkYaku(params, "四槓子", yaku.isSukantsu, true),
+        10000,
+    );
+});
+
 Deno.test("isDra", async () => {
     await fixtures((params) => checkYaku(params, "ドラ", yaku.isDra), 10000);
 });
@@ -248,4 +341,31 @@ Deno.test("isDoraAka", async () => {
         (params) => checkYaku(params, "赤ドラ", yaku.isDoraAka),
         10000,
     );
+});
+
+Deno.test("findYakus", async () => {
+    await fixtures((params) => {
+        const wins = NewWinForm({ ...params });
+
+        let max = 0;
+        let actYakus: yaku.yaku[] = [];
+        for (const win of wins) {
+            const mybYakus = yaku.findYakus({ ...params, ...win });
+            const han = mybYakus.reduce((a, b) => a + b.val, 0);
+            if (max < han) {
+                max = han;
+                actYakus = mybYakus;
+            }
+        }
+
+        const actSort = actYakus.sort((a, b) => a.str.localeCompare(b.str));
+        const expSort = params.yakus.sort((a, b) => a.str.localeCompare(b.str));
+        try {
+            expect(actSort).toEqual(expSort);
+        } catch (e) {
+            console.log(actSort, expSort);
+            console.log(params);
+            throw e;
+        }
+    });
 });

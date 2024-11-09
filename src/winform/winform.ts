@@ -43,22 +43,24 @@ export const NewWinForm = ({
 
   // 国士無双
   const x = [
-    new Pai(0),
-    new Pai(32),
-    new Pai(36),
-    new Pai(68),
-    new Pai(72),
-    new Pai(104),
-    new Pai(108),
-    new Pai(112),
-    new Pai(116),
-    new Pai(120),
-    new Pai(128),
-    new Pai(132),
+    "m1",
+    "m9",
+    "p1",
+    "p9",
+    "s1",
+    "s9",
+    "z1",
+    "z2",
+    "z3",
+    "z4",
+    "z5",
+    "z6",
+    "z7",
   ];
   if (
-    x.every((e) => paiRest.map((e) => e.fmt).includes(e.fmt)) &&
-    x.some((e) => paiMap[e.fmt] == 2)
+    x.every((e) => paiRest.map((e) => e.fmt).includes(e)) &&
+    x.some((e) => paiMap[e] == 2) &&
+    paiSets.length == 0
   ) {
     wins.push(new Kokushimuso({ pais: paiRest, paiLast }));
   }
@@ -203,4 +205,3 @@ export class Kokushimuso extends WinForm {
     this.paiKokushimuso = pais;
   }
 }
-
