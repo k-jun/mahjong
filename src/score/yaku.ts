@@ -483,7 +483,7 @@ export const isSuankotanki = ({ paiSets, paiLast }: params): yaku[] => {
         ankos.length == 4 &&
         ankos.every((e) => e.machi({ pai: paiLast }) == MachiType.INVALID)
     ) {
-        return [{ str: "四暗刻単騎", val: 2, yakuman: true }];
+        return [{ str: "四暗刻単騎", val: 1, yakuman: true }];
     }
     return [];
 };
@@ -568,7 +568,7 @@ export const isJunseichurempoto = (
             [2, 3, 4, 5, 6, 7, 8].some((e) => (map[e] ?? 0) == 2)
         ) {
             if (map[paiLast.num] == 2) {
-                return [{ str: "純正九蓮宝燈", val: 2, yakuman: true }];
+                return [{ str: "純正九蓮宝燈", val: 1, yakuman: true }];
             }
         }
     }
@@ -582,7 +582,7 @@ export const isDaisushi = ({ paiSets }: params): yaku[] => {
         map[kotsu.pais[0].dsp] = true;
     }
     if (["東", "南", "西", "北"].every((e) => map[e])) {
-        return [{ str: "大四喜", val: 2, yakuman: true }];
+        return [{ str: "大四喜", val: 1, yakuman: true }];
     }
     return [];
 };
@@ -680,7 +680,7 @@ export const findYakus = (params: params): yaku[] => {
             map[p.fmt] = (map[p.fmt] || 0) + 1;
         }
         if (map[paiLast.fmt] == 2) {
-            return [{ str: "国士無双１３面", val: 2, yakuman: true }];
+            return [{ str: "国士無双１３面", val: 1, yakuman: true }];
         }
         return [
             { str: "国士無双", val: 1, yakuman: true },

@@ -19,6 +19,7 @@ export type params = {
   paiSets: PaiSet[];
   yakus: { str: string; val: number; yakuman?: boolean }[];
   fu: number;
+  ten: number;
   options: {
     isTsumo: boolean;
     isRichi: boolean;
@@ -136,12 +137,13 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   if (attrs["yakuman"]) {
     attrs["yakuman"].split(",").forEach((e) => {
       const str = constantYakus[Number(e)];
-      let val = 1;
-      if (
-        ["四暗刻単騎", "純正九蓮宝燈", "国士無双１３面", "大四喜"].includes(str)
-      ) {
-        val = 2;
-      }
+      const val = 1;
+      // 天鳳は単一の役満でのダブル役満を採用していない。
+      // if (
+      //   ["四暗刻単騎", "純正九蓮宝燈", "国士無双１３面", "大四喜"].includes(str)
+      // ) {
+      //   val = 2;
+      // }
       yakus.push({ str, val, yakuman: true });
     });
   }
@@ -159,7 +161,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   const isOya = s.oya == Number(attrs["who"]);
 
   const fu = Number(attrs["ten"]?.split(",")[0]);
-
+  const ten = Number(attrs["ten"]?.split(",")[1]);
   const paiSets: PaiSet[] = [];
   if (attrs["m"]) {
     for (const mi of attrs["m"].split(",")) {
@@ -181,6 +183,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     paiLast,
     yakus,
     fu,
+    ten,
     options: {
       isTsumo,
       isRichi,
