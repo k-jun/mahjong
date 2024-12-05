@@ -1,6 +1,5 @@
 import { MachiType, PaiSetType } from "../paiset/paiset.ts";
-import { findYakus, isPinfu, params as yakuParams } from "./yaku.ts";
-import { params as utilsParams } from "../utils/utils.ts";
+import { isPinfu, params as yakuParams } from "./yaku.ts";
 
 export const calcFu = (params: yakuParams): number => {
     const {

@@ -1,7 +1,7 @@
 import { expect } from "jsr:@std/expect";
 import { fixtures } from "../utils/utils.ts";
 import { NewWinForm } from "../winform/winform.ts";
-import { calcFu, calcTsumoPoint, calcRonPoint } from "./fu.ts";
+import { calcFu, calcTsumoPoint, calcRonPoint } from "./score.ts";
 import * as yaku from "./yaku.ts";
 
 Deno.test("calcFu", async () => {
