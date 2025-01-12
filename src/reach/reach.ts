@@ -10,9 +10,9 @@ export class Shanten {
     calcPairAB(nums: number[]) {
         let cnt = 0;
         let pnt = 0;
-        for (let n = 0; n <= 9; n++) {
+        for (let n = 0; n < nums.length; n++) {
             cnt += nums[n];
-            if (n <= 7 && nums[n + 1] == 0 && nums[n + 2] == 0) {
+            if (n < 7 && nums[n + 1] == 0 && nums[n + 2] == 0) {
                 pnt += Math.floor(cnt / 2);
                 cnt = 0;
             }
@@ -62,19 +62,85 @@ export class Shanten {
         return max;
     }
 
+    calcAllAB(pais: Pai[]): number {
+        const mp = pais.filter((e) => e.typ == PaiType.MANZU);
+        const pp = pais.filter((e) => e.typ == PaiType.PINZU);
+        const sp = pais.filter((e) => e.typ == PaiType.SOUZU);
+        const zp = pais.filter((e) => e.typ == PaiType.JIHAI);
+
+        const ma = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const pa = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const sa = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        const items: [Pai[], number[]][] = [[mp, ma], [pp, pa], [sp, sa]];
+        for (const [p, a] of items) {
+            for (const pi of p) {
+                a[pi.num - 1] += 1;
+            }
+        }
+
+        const mr = this.calcSetPairAB(ma, 0);
+        const pr = this.calcSetPairAB(pa, 0);
+        const sr = this.calcSetPairAB(sa, 0);
+
+        const zr = [0, 0];
+        const zm = new Map<string, number>();
+        for (const pi of zp) {
+            zm.set(pi.val, (zm.get(pi.val) || 0) + 1);
+        }
+        for (const v of zm.keys()) {
+            if ((zm.get(v) || 0) >= 3) {
+                zr[0] += 1;
+            }
+            if ((zm.get(v) || 0) == 2) {
+                zr[1] += 1;
+            }
+        }
+
+        let min = 8;
+
+        for (const m of mr) {
+            for (const p of pr) {
+                for (const s of sr) {
+                    const set = m[0] + p[0] + s[0] + zr[0];
+                    let pair = m[1] + p[1] + s[1] + zr[1];
+
+                    if (set + pair >= 4) {
+                        pair = 4 - set;
+                    }
+                    const minkamo = 8 - (set * 2) - pair;
+                    if (minkamo < min) {
+                        min = minkamo;
+                    }
+                }
+            }
+        }
+
+        return min;
+    }
+
     public calcNormalShanten(): number {
         // ref: https://blog.kobalab.net/entry/20151217/1450357254
+        const nums = new Map<string, number>();
+        let min = this.calcAllAB(this.tehai);
+        for (const pi of this.tehai) {
+            nums.set(pi.val, (nums.get(pi.val) || 0) + 1);
+        }
 
-        const mp = this.tehai.filter((e) => e.typ == PaiType.SOUZU);
-        const pp = this.tehai.filter((e) => e.typ == PaiType.PINZU);
-        const sp = this.tehai.filter((e) => e.typ == PaiType.SOUZU);
-        const zp = this.tehai.filter((e) => e.typ == PaiType.JIHAI);
-
-        return 0;
+        for (const v of nums.keys()) {
+            if ((nums.get(v) || 0) >= 2) {
+                const paisCopy = [...this.tehai];
+                paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
+                paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
+                const r = this.calcAllAB(paisCopy) - 1;
+                if (r < min) {
+                    min = r;
+                }
+            }
+        }
+        return min;
     }
 
     public calcChiitoiShanten(): number {
-        let pairCount = 0;
         const pairs = new Set<string>();
         const kinds = new Set<string>();
 
@@ -106,10 +172,10 @@ export class Shanten {
     }
 
     public calcMinShanten(): number {
-        // const normal = this.calcNormalShanten();
+        const normal = this.calcNormalShanten();
         const chiitoi = this.calcChiitoiShanten();
         const kokushi = this.calcKokushiShanten();
 
-        return Math.min(chiitoi, kokushi);
+        return Math.min(normal, chiitoi, kokushi);
     }
 }
