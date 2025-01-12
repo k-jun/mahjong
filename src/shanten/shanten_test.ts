@@ -1,5 +1,5 @@
 import { Pai } from "../pai/pai.ts";
-import { Shanten } from "./reach.ts";
+import { Shanten } from "./shanten.ts";
 import { expect } from "jsr:@std/expect";
 
 Deno.test("calcKokushiShanten", () => {
