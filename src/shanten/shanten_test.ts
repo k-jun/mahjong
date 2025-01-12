@@ -1,4 +1,5 @@
 import { Pai } from "../pai/pai.ts";
+import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 import { Shanten } from "./shanten.ts";
 import { expect } from "jsr:@std/expect";
 
@@ -364,4 +365,22 @@ Deno.test("calcShanten", () => {
   ];
   const hand3Shanten = new Shanten(hand3);
   expect(hand3Shanten.calcShanten()).toBe(-1);
+
+  // Test hand with sets (1 shanten)
+  const hand4 = [
+    new Pai(12), // m4
+    new Pai(24), // m7
+    new Pai(36), // p1
+    new Pai(48), // p4
+    new Pai(60), // p7
+    new Pai(72), // s1
+    new Pai(84), // s4
+    new Pai(96), // s7
+  ];
+  const hand4Sets = [
+    new PaiSet({pais: [new Pai(0), new Pai(0), new Pai(0)], type: PaiSetType.MINKO}), // minko m1
+    new PaiSet({pais: [new Pai(4), new Pai(4), new Pai(4)], type: PaiSetType.MINKO}), // minko m2
+  ];
+  const hand4Shanten = new Shanten(hand4, hand4Sets);
+  expect(hand4Shanten.calcShanten()).toBe(4);
 });

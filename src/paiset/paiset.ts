@@ -37,8 +37,8 @@ export class PaiSet {
     { pais, type, nakiIdx = -1, fromWho = Player.JICHA }: {
       pais: Pai[];
       type: PaiSetType;
-      nakiIdx: number;
-      fromWho: Player;
+      nakiIdx?: number;
+      fromWho?: Player;
     },
   ) {
     this.pais = pais;
