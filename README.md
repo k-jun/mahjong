@@ -10,8 +10,10 @@ XML
 をダウンロードする。ちなみに、年単位となると相当時間がかかる。数時間レベルは覚悟しておいたほうが良い。
 
 ```bash
+cd ./fixtures/
 unzip ~/Downloads/scraw2023.zip
-cd ~/playground/2023
+
+cd ./2023
 rm *.log.gz
 gunzip *.html.gz
 
@@ -22,6 +24,7 @@ URL=`echo $head | grep -oE 'http[^"]*' | sed -e 's/?log=/log\/?/g'`
 ID=`echo $URL | sed -e 's$http://tenhou.net/0/log/?$$'`
 curl -s $URL > $ID.xml
 done < $i
+rm $i
 done
 ```
 

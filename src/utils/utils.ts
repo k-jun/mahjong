@@ -41,7 +41,13 @@ export const fixtures = async (
 ) => {
   let cnt = 0;
   for await (const d of Deno.readDir("./fixtures/")) {
+    if (d.name == ".gitkeep") {
+      continue;
+    }
     for await (const f of Deno.readDir(`./fixtures/${d.name}`)) {
+      if (!f.name.endsWith(".xml")) {
+        continue;
+      }
       const text = await Deno.readTextFile(
         `./fixtures/${d.name}/${f.name}`,
       );
