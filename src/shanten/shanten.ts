@@ -171,7 +171,7 @@ export class Shanten {
         return 13 - terminals.size - (hasPair ? 1 : 0);
     }
 
-    public calcMinShanten(): number {
+    public calcShanten(): number {
         const normal = this.calcNormalShanten();
         const chiitoi = this.calcChiitoiShanten();
         const kokushi = this.calcKokushiShanten();

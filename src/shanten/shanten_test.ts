@@ -304,7 +304,7 @@ Deno.test("calcNormalShanten", () => {
   expect(hand5Shanten.calcNormalShanten()).toBe(0);
 });
 
-Deno.test("calcMinShanten", () => {
+Deno.test("calcShanten", () => {
   // Normal hand (2 shanten)
   const hand1 = [
     new Pai(0),  // m1
@@ -323,7 +323,7 @@ Deno.test("calcMinShanten", () => {
     new Pai(52)  // p5
   ];
   const hand1Shanten = new Shanten(hand1);
-  expect(hand1Shanten.calcMinShanten()).toBe(0);
+  expect(hand1Shanten.calcShanten()).toBe(0);
 
   // Chiitoi hand (1 shanten)
   const hand2 = [
@@ -343,7 +343,7 @@ Deno.test("calcMinShanten", () => {
     new Pai(32)  // m9
   ];
   const hand2Shanten = new Shanten(hand2);
-  expect(hand2Shanten.calcMinShanten()).toBe(0);
+  expect(hand2Shanten.calcShanten()).toBe(0);
 
   // Kokushi hand (3 shanten)
   const hand3 = [
@@ -363,5 +363,5 @@ Deno.test("calcMinShanten", () => {
     new Pai(132)  // z7 (中)
   ];
   const hand3Shanten = new Shanten(hand3);
-  expect(hand3Shanten.calcMinShanten()).toBe(-1);
+  expect(hand3Shanten.calcShanten()).toBe(-1);
 });
