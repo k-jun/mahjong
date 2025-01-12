@@ -113,7 +113,7 @@ Deno.test("Pai isAka", () => {
   const m5 = new Pai(17); // m5
   expect(m5.isAka()).toBe(false);
 
-  const pr = new Pai(52); // pr 
+  const pr = new Pai(52); // pr
   expect(pr.isAka()).toBe(true);
 
   const p5 = new Pai(53); // p5
@@ -122,7 +122,6 @@ Deno.test("Pai isAka", () => {
   const sr = new Pai(88); // sr
   expect(sr.isAka()).toBe(true);
 
-  const s5 = new Pai(89); // s5 
+  const s5 = new Pai(89); // s5
   expect(s5.isAka()).toBe(false);
-
 });

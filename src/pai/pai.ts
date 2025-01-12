@@ -101,4 +101,3 @@ export class Pai {
     return this.val == "mr" || this.val == "pr" || this.val == "sr";
   }
 }
-
