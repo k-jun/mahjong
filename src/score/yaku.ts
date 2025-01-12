@@ -18,13 +18,13 @@ export type params = {
   };
   paiBakaze: Pai;
   paiJikaze: Pai;
-  paiDora: Array<Pai>;
-  paiDoraUra: Array<Pai>;
-  paiHead: Array<Pai>;
-  paiSets: Array<PaiSet>;
+  paiDora: Pai[];
+  paiDoraUra: Pai[];
+  paiHead: Pai[];
+  paiSets: PaiSet[];
   paiLast: Pai;
-  paiChitoitsu?: Array<Pai>;
-  paiKokushimuso?: Array<Pai>;
+  paiChitoitsu?: Pai[];
+  paiKokushimuso?: Pai[];
 };
 
 export type yaku = {
@@ -110,7 +110,7 @@ export const isIpeko = ({ paiSets, paiChitoitsu }: params): yaku[] => {
   const shuntsus = paiSets.filter((e) => e.isShuntsu());
   const isMenzen = paiSets.every((e) => e.isClose());
 
-  const done: Array<number> = [];
+  const done: number[] = [];
   let cnt = 0;
   for (let i = 0; i < shuntsus.length; i++) {
     for (let j = i + 1; j < shuntsus.length; j++) {
@@ -325,7 +325,7 @@ export const isShosangen = (
 ): yaku[] => {
   if (paiChitoitsu) return [];
 
-  const all: Array<Array<Pai>> = [...paiSets.map((e) => e.pais), paiHead];
+  const all: Pai[][] = [...paiSets.map((e) => e.pais), paiHead];
   const map: Record<string, boolean> = {};
   for (const set of all) {
     map[set[0].dsp] = true;
@@ -357,7 +357,7 @@ export const isRyampeko = ({ paiSets, paiChitoitsu }: params): yaku[] => {
   const shuntsus = paiSets.filter((e) => e.isShuntsu());
   const isMenzen = paiSets.every((e) => e.isClose());
 
-  const done: Array<number> = [];
+  const done: number[] = [];
   let cnt = 0;
   for (let i = 0; i < shuntsus.length; i++) {
     for (let j = i + 1; j < shuntsus.length; j++) {
@@ -587,7 +587,7 @@ export const isDaisushi = ({ paiSets }: params): yaku[] => {
 
 export const isShosushi = ({ paiSets, paiHead }: params): yaku[] => {
   if (paiHead.length == 0) return [];
-  const kotsus: Array<Array<Pai>> = [
+  const kotsus: Pai[][] = [
     paiHead,
     ...paiSets.filter((e) => e.isKotsu()).map((e) => e.pais),
   ];

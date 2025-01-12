@@ -126,7 +126,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     new Pai(Number(e)).next()
   );
 
-  const paiDoraUra: Array<Pai> = [];
+  const paiDoraUra: Pai[] = [];
   if (attrs["doraHaiUra"]) {
     attrs["doraHaiUra"].split(",").forEach((e) => {
       paiDoraUra.push(new Pai(Number(e)).next());

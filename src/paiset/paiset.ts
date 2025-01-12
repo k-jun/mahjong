@@ -28,14 +28,14 @@ export enum Player {
 }
 
 export class PaiSet {
-  pais: Array<Pai>;
+  pais: Pai[];
   type: PaiSetType;
   nakiIdx: number;
   fromWho: Player;
 
   constructor(
     { pais, type, nakiIdx = -1, fromWho = Player.JICHA }: {
-      pais: Array<Pai>;
+      pais: Pai[];
       type: PaiSetType;
       nakiIdx: number;
       fromWho: Player;

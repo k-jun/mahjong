@@ -2,12 +2,12 @@ import { Pai } from "../pai/pai.ts";
 import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 
 class WinForm {
-  paiHead: Array<Pai>;
-  paiSets: Array<PaiSet>;
+  paiHead: Pai[];
+  paiSets: PaiSet[];
   paiLast: Pai;
   constructor({ paiHead, paiSets, paiLast }: {
-    paiHead: Array<Pai>;
-    paiSets: Array<PaiSet>;
+    paiHead: Pai[];
+    paiSets: PaiSet[];
     paiLast: Pai;
   }) {
     this.paiHead = paiHead;
@@ -21,8 +21,8 @@ export const NewWinForm = ({
   paiLast,
   paiSets,
 }: {
-  paiRest: Array<Pai>;
-  paiSets: Array<PaiSet>;
+  paiRest: Pai[];
+  paiSets: PaiSet[];
   paiLast: Pai;
 }): WinForm[] => {
   const wins: WinForm[] = [];
@@ -70,7 +70,7 @@ export const NewWinForm = ({
   ) => k);
   for (const head of heads) {
     const paiCopy = [...paiRest];
-    const paiHead: Array<Pai> = [];
+    const paiHead: Pai[] = [];
     paiHead.push(paiCopy.splice(paiCopy.findIndex((e) => e.fmt == head), 1)[0]);
     paiHead.push(paiCopy.splice(paiCopy.findIndex((e) => e.fmt == head), 1)[0]);
     const ps = findSet({ pais: paiCopy });
