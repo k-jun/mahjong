@@ -137,6 +137,22 @@ export const pais = [
   "z7", // 135
 ];
 
+export const yaochuPais = [
+  "m1",
+  "m9",
+  "p1",
+  "p9",
+  "s1",
+  "s9",
+  "z1",
+  "z2",
+  "z3",
+  "z4",
+  "z5",
+  "z6",
+  "z7",
+];
+
 export const yakus = [
   "門前清自摸和",
   "立直",

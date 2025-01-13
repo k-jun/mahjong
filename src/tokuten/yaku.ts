@@ -1,31 +1,8 @@
 import { Pai, PaiType } from "../pai/pai.ts";
-import { MachiType, PaiSet, PaiSetType } from "../paiset/paiset.ts";
+import { MachiType, PaiSetType } from "../paiset/paiset.ts";
 import { deepCopy } from "../utils/utils.ts";
 
-export type params = {
-  options: {
-    isTsumo: boolean;
-    isRichi: boolean;
-    isDabururichi: boolean;
-    isIppatsu: boolean;
-    isHaitei: boolean;
-    isHoutei: boolean;
-    isChankan: boolean;
-    isRinshankaiho: boolean;
-    isChiho: boolean;
-    isTenho: boolean;
-    isOya: boolean;
-  };
-  paiBakaze: Pai;
-  paiJikaze: Pai;
-  paiDora: Pai[];
-  paiDoraUra: Pai[];
-  paiHead: Pai[];
-  paiSets: PaiSet[];
-  paiLast: Pai;
-  paiChitoitsu?: Pai[];
-  paiKokushimuso?: Pai[];
-};
+import { params } from "./tokuten.ts";
 
 export type yaku = {
   str: string;

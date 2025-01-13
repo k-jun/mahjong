@@ -1,19 +1,21 @@
 import { expect } from "jsr:@std/expect";
 import { fixtures, params } from "../utils/utils.ts";
-import { NewWinForm } from "../winform/winform.ts";
+import { params as tokutenParams } from "./tokuten.ts";
+import { WinFormFactory } from "../winform/winform.ts";
 import * as yaku from "./yaku.ts";
 
 const checkYaku = (
   params: params,
   name: string,
-  yakufunc: (params: yaku.params) => yaku.yaku[],
+  yakufunc: (params: tokutenParams) => yaku.yaku[],
   isYakuman: boolean = false,
 ): void => {
   if (!isYakuman && params.yakus.some((e) => e.yakuman)) {
     return;
   }
 
-  const wins = NewWinForm({ ...params });
+  const factory = new WinFormFactory();
+  const wins = factory.create({ ...params });
   const expYaku = params.yakus.find((e) => e.str == name);
 
   let actYaku: yaku.yaku | undefined = undefined;
@@ -343,7 +345,8 @@ Deno.test("isDoraAka", async () => {
 
 Deno.test("findYakus", async () => {
   await fixtures((params) => {
-    const wins = NewWinForm({ ...params });
+    const factory = new WinFormFactory();
+    const wins = factory.create({ ...params });
 
     const mbyYakus: yaku.yaku[][] = [];
     for (const win of wins) {
