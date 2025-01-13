@@ -80,7 +80,7 @@ export class PaiSet {
         return MachiType.INVALID;
     }
   }
-  isOpen() {
+  isOpen(): boolean {
     return ![
       PaiSetType.ANSHUN,
       PaiSetType.ANKAN,
@@ -88,11 +88,11 @@ export class PaiSet {
     ].includes(this.type);
   }
 
-  isClose() {
+  isClose(): boolean {
     return !this.isOpen();
   }
 
-  isKotsu() {
+  isKotsu(): boolean {
     return [
       PaiSetType.ANKAN,
       PaiSetType.ANKO,
@@ -102,11 +102,11 @@ export class PaiSet {
     ].includes(this.type);
   }
 
-  isShuntsu() {
+  isShuntsu(): boolean {
     return !this.isKotsu();
   }
 
-  isKantsu() {
+  isKantsu(): boolean {
     return [PaiSetType.KAKAN, PaiSetType.MINKAN, PaiSetType.ANKAN].includes(
       this.type,
     );

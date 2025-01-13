@@ -10,7 +10,7 @@ export class Shanten {
         this.sets = sets;
     }
 
-    calcPairAB(nums: number[]) {
+    calcPairAB(nums: number[]): number {
         let cnt = 0;
         let pnt = 0;
         for (let n = 0; n < nums.length; n++) {
