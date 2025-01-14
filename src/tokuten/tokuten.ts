@@ -74,20 +74,19 @@ export class Tokuten {
         yakus = mbyYaku;
       }
     }
-    const [pntCdn, pntPrt] = this.calcPoint({
+    const { pointSum, pointPrt, pointCdn } = this.calcPoint({
       han: maxHan,
       fu: maxFu,
       isYakuman,
     });
-    const pntSum = this.params.options.isOya ? pntCdn * 3 : pntPrt + pntCdn * 2;
 
     return {
       han: maxHan,
       fu: maxFu,
-      pointSum: pntSum,
-      pointPrt: pntPrt,
-      pointCdn: pntCdn,
-      yakus: yakus,
+      pointSum,
+      pointPrt,
+      pointCdn,
+      yakus,
     };
   }
 
@@ -189,11 +188,29 @@ export class Tokuten {
     han: number;
     fu: number;
     isYakuman: boolean;
-  }): number[] {
+  }): {
+    pointSum: number;
+    pointPrt: number;
+    pointCdn: number;
+  } {
+    let pointPrt = 0;
+    let pointCdn = 0;
+    let pointSum = 0;
     if (this.params.options.isTsumo) {
-      return this.calcTsumoPoint(params);
+      [pointCdn, pointPrt] = this.calcTsumoPoint(params);
+      pointSum = this.params.options.isOya
+        ? pointCdn * 3
+        : pointPrt + pointCdn * 2;
+    } else {
+      pointCdn = this.calcRonPoint(params);
+      pointSum = pointCdn;
     }
-    return [this.calcRonPoint(params), 0];
+
+    return {
+      pointSum,
+      pointPrt,
+      pointCdn,
+    };
   }
 
   // [fromChild, fromOya]
