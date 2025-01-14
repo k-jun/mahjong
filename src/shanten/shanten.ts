@@ -10,6 +10,14 @@ export class Shanten {
         this.sets = sets;
     }
 
+    count(): number {
+        const normal = this.calcNormalShanten();
+        const chiitoi = this.calcChiitoiShanten();
+        const kokushi = this.calcKokushiShanten();
+
+        return Math.min(normal, chiitoi, kokushi);
+    }
+
     calcPairAB(nums: number[]): number {
         let cnt = 0;
         let pnt = 0;
@@ -121,7 +129,7 @@ export class Shanten {
         return min;
     }
 
-    public calcNormalShanten(): number {
+    calcNormalShanten(): number {
         // ref: https://blog.kobalab.net/entry/20151217/1450357254
         const nums = new Map<string, number>();
         let min = this.calcAllAB(this.pais);
@@ -143,7 +151,7 @@ export class Shanten {
         return min;
     }
 
-    public calcChiitoiShanten(): number {
+    calcChiitoiShanten(): number {
         const pairs = new Set<string>();
         const kinds = new Set<string>();
 
@@ -157,7 +165,7 @@ export class Shanten {
         return 6 - pairs.size + Math.max(0, 7 - kinds.size);
     }
 
-    public calcKokushiShanten(): number {
+    calcKokushiShanten(): number {
         const terminals = new Set<string>();
         let hasPair = false;
 
@@ -172,13 +180,5 @@ export class Shanten {
         }
 
         return 13 - terminals.size - (hasPair ? 1 : 0);
-    }
-
-    public calcShanten(): number {
-        const normal = this.calcNormalShanten();
-        const chiitoi = this.calcChiitoiShanten();
-        const kokushi = this.calcKokushiShanten();
-
-        return Math.min(normal, chiitoi, kokushi);
     }
 }
