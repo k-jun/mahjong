@@ -3,36 +3,18 @@ import { JSDOM } from "npm:jsdom";
 import { Pai } from "../pai/pai.ts";
 import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 import { yakus as constantYakus } from "../constant/constant.ts";
+
+import { params as tokutenParams } from "../tokuten/tokuten.ts";
 type state = {
   isYonmaAriAriAka: boolean;
   oya: number;
   kyoku: number;
 };
 
-export type params = {
-  paiBakaze: Pai;
-  paiJikaze: Pai;
-  paiDora: Pai[];
-  paiDoraUra: Pai[];
-  paiRest: Pai[];
-  paiLast: Pai;
-  paiSets: PaiSet[];
-  yakus: { str: string; val: number; yakuman?: boolean }[];
+export type params = tokutenParams & {
+  yakus: { str: string; val: number; yakuman: boolean }[];
   fu: number;
   ten: number;
-  options: {
-    isTsumo: boolean;
-    isRichi: boolean;
-    isDabururichi: boolean;
-    isIppatsu: boolean;
-    isHaitei: boolean;
-    isHoutei: boolean;
-    isChankan: boolean;
-    isRinshankaiho: boolean;
-    isChiho: boolean;
-    isTenho: boolean;
-    isOya: boolean;
-  };
 };
 
 export const fixtures = async (
@@ -51,6 +33,9 @@ export const fixtures = async (
       const text = await Deno.readTextFile(
         `./fixtures/${d.name}/${f.name}`,
       );
+      if (text == "") {
+        continue;
+      }
 
       const dom = new JSDOM(text, { contentType: "text/xml" });
       let state: state = {
@@ -132,11 +117,11 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
       paiDoraUra.push(new Pai(Number(e)).next());
     });
   }
-  const yakus: { str: string; val: number; yakuman?: boolean }[] = [];
+  const yakus: { str: string; val: number; yakuman: boolean }[] = [];
   if (attrs["yaku"]) {
     const a = attrs["yaku"].split(",");
     for (let i = 0; i < a.length; i += 2) {
-      yakus.push({ str: constantYakus[Number(a[i])], val: Number(a[i + 1]) });
+      yakus.push({ str: constantYakus[Number(a[i])], val: Number(a[i + 1]), yakuman: false });
     }
   }
 

@@ -2,14 +2,30 @@ import { yaochuPais } from "../constant/constant.ts";
 import { Pai } from "../pai/pai.ts";
 import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 
-type WinFormParams = {
+type WinFormInputParams = {
   paiRest: Pai[];
   paiSets: PaiSet[];
   paiLast: Pai;
 };
 
+export type WinFormNormalParams = {
+  paiHead: Pai[];
+  paiSets: PaiSet[];
+  paiLast: Pai;
+};
+
+export type WinFormChitoiParams = {
+  paiChitoi?: Pai[];
+  paiLast: Pai;
+}
+
+export type WinFormKokushiParams = {
+  paiKokushi?: Pai[];
+  paiLast: Pai;
+}
+
 export class WinFormFactory {
-  create(params: WinFormParams): WinForm[] {
+  create(params: WinFormInputParams): WinForm[] {
     const wins: WinForm[] = [];
     const paiMap = new Map<string, number>();
 
@@ -24,7 +40,7 @@ export class WinFormFactory {
   }
 
   createChitoi(
-    params: WinFormParams & { paiMap: Map<string, number> },
+    params: WinFormInputParams & { paiMap: Map<string, number> },
   ): WinForm[] {
     const wins = [];
 
@@ -32,14 +48,14 @@ export class WinFormFactory {
       params.paiMap.values().every((e) => e == 2) && params.paiSets.length == 0
     ) {
       wins.push(
-        new Chitoitsu({ pais: params.paiRest, paiLast: params.paiLast }),
+        new Chitoitsu({ paiChitoi: params.paiRest, paiLast: params.paiLast }),
       );
     }
     return wins;
   }
 
   createKokushi(
-    params: WinFormParams & { paiMap: Map<string, number> },
+    params: WinFormInputParams & { paiMap: Map<string, number> },
   ): WinForm[] {
     const wins = [];
     if (
@@ -48,14 +64,14 @@ export class WinFormFactory {
       params.paiSets.length == 0
     ) {
       wins.push(
-        new Kokushimuso({ pais: params.paiRest, paiLast: params.paiLast }),
+        new Kokushimuso({ paiKokushi: params.paiRest, paiLast: params.paiLast }),
       );
     }
     return wins;
   }
 
   createNormal(
-    params: WinFormParams & { paiMap: Map<string, number> },
+    params: WinFormInputParams & { paiMap: Map<string, number> },
   ): WinForm[] {
     const { paiRest, paiSets, paiLast, paiMap } = params;
     const wins = [];
@@ -199,11 +215,7 @@ class WinForm {
   paiHead: Pai[];
   paiSets: PaiSet[];
   paiLast: Pai;
-  constructor({ paiHead, paiSets, paiLast }: {
-    paiHead: Pai[];
-    paiSets: PaiSet[];
-    paiLast: Pai;
-  }) {
+  constructor({ paiHead, paiSets, paiLast }: WinFormNormalParams) {
     this.paiHead = paiHead;
     this.paiSets = paiSets;
     this.paiLast = paiLast;
@@ -211,17 +223,17 @@ class WinForm {
 }
 
 export class Chitoitsu extends WinForm {
-  paiChitoitsu: Pai[];
-  constructor({ pais, paiLast }: { pais: Pai[]; paiLast: Pai }) {
+  paiChitoi: Pai[];
+  constructor({ paiChitoi, paiLast }: WinFormChitoiParams) {
     super({ paiHead: [], paiSets: [], paiLast });
-    this.paiChitoitsu = pais;
+    this.paiChitoi = paiChitoi ?? [];
   }
 }
 
 export class Kokushimuso extends WinForm {
-  paiKokushimuso: Pai[];
-  constructor({ pais, paiLast }: { pais: Pai[]; paiLast: Pai }) {
+  paiKokushi: Pai[];
+  constructor({ paiKokushi, paiLast }: WinFormKokushiParams) {
     super({ paiHead: [], paiSets: [], paiLast });
-    this.paiKokushimuso = pais;
+    this.paiKokushi = paiKokushi ?? [];
   }
 }
