@@ -117,7 +117,6 @@ export class Tokuten {
 
     let base = 20;
     const isMenzen = paiSets.every((e) => e.isClose());
-
     const machis = paiSets.map((e) => e.machi({ pai: params.paiLast }));
 
     if (ispinfu) {
@@ -131,11 +130,11 @@ export class Tokuten {
     } else if (machis.includes(MachiType.RYANMEN)) {
       // pass
     } else if (machis.includes(MachiType.SHANPON)) {
-      const target = paiSets.find(
+      const idx = paiSets.findIndex(
         (e) => e.machi({ pai: params.paiLast }) == MachiType.SHANPON,
       );
-      if (target && !options.isTsumo) {
-        target.type = PaiSetType.MINKO;
+      if (idx != -1 && !options.isTsumo) {
+        paiSets[idx].type = PaiSetType.MINKO;
       }
     }
 
@@ -180,6 +179,8 @@ export class Tokuten {
     }
 
     const point = Math.floor(base / 10) * 10 + (base % 10 > 0 ? 10 : 0);
+
+    // console.log(point);
     return Math.max(point, 30);
   }
 
