@@ -8,6 +8,8 @@ type WinFormInputParams = {
   paiLast: Pai;
 };
 
+export type WinFormOutputParams = WinFormNormalParams & WinFormChitoiParams & WinFormKokushiParams;
+
 export type WinFormNormalParams = {
   paiHead: Pai[];
   paiSets: PaiSet[];
