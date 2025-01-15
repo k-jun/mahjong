@@ -1,4 +1,4 @@
-# Scilla
+# Mahjong
 
 ## Setup
 
