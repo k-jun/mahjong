@@ -14,7 +14,7 @@ npx jsr add @k-jun/mahjong
 
 ## Example
 
-```deno
+```ts
 const tokuten = new Tokuten({
   options: {
     isOya: true,
