@@ -15,5 +15,5 @@ npx jsr add @k-jun/mahjong
 ## Test
 
 ```bash
-deno test --allow-env --allow-read
+deno test -A
 ```

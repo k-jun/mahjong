@@ -48,9 +48,9 @@ export class WinFormFactory {
     params: WinFormInputParams & { paiMap: Map<string, number> },
   ): WinForm[] {
     const wins = [];
-
+    const vals: number[] = [...params.paiMap.values()];
     if (
-      params.paiMap.values().every((e) => e == 2) && params.paiSets.length == 0
+      vals.every((e) => e == 2) && params.paiSets.length == 0
     ) {
       wins.push(
         new Chitoitsu({ paiChitoi: params.paiRest, paiLast: params.paiLast }),
