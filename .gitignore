@@ -1,5 +1,4 @@
-fixtures/*
-!fixtures/README.md
+fixtures/2023/
 .vscode/
 
 examples/node_modules/*
