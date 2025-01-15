@@ -238,7 +238,7 @@ Deno.test("calcNormalShanten", () => {
     new Pai(88), // s5
     new Pai(92), // s6
     new Pai(100), // s8
-    new Pai(104) // s9
+    new Pai(104), // s9
   ];
 
   const hand2Shanten = new Shanten(hand2);
@@ -258,15 +258,15 @@ Deno.test("calcNormalShanten", () => {
     new Pai(88), // s5
     new Pai(92), // s6
     new Pai(100), // s8
-    new Pai(100) // s8
+    new Pai(100), // s8
   ];
 
   const hand3Shanten = new Shanten(hand3);
   expect(hand3Shanten.calcNormalShanten()).toBe(1);
-  
+
   const hand4 = [
-    new Pai(4),  // m2
-    new Pai(8),  // m3
+    new Pai(4), // m2
+    new Pai(8), // m3
     new Pai(16), // m5
     new Pai(20), // m6
     new Pai(44), // p3
@@ -285,9 +285,9 @@ Deno.test("calcNormalShanten", () => {
   expect(hand4Shanten.calcNormalShanten()).toBe(3);
 
   const hand5 = [
-    new Pai(0),  // m1
-    new Pai(4),  // m2
-    new Pai(8),  // m3
+    new Pai(0), // m1
+    new Pai(4), // m2
+    new Pai(8), // m3
     new Pai(12), // m4
     new Pai(16), // m5
     new Pai(20), // m6
@@ -298,7 +298,7 @@ Deno.test("calcNormalShanten", () => {
     new Pai(40), // p2
     new Pai(44), // p3
     new Pai(48), // p4
-    new Pai(52)  // p5
+    new Pai(52), // p5
   ];
 
   const hand5Shanten = new Shanten(hand5);
@@ -308,9 +308,9 @@ Deno.test("calcNormalShanten", () => {
 Deno.test("count", () => {
   // Normal hand (2 shanten)
   const hand1 = [
-    new Pai(0),  // m1
-    new Pai(4),  // m2
-    new Pai(8),  // m3
+    new Pai(0), // m1
+    new Pai(4), // m2
+    new Pai(8), // m3
     new Pai(12), // m4
     new Pai(16), // m5
     new Pai(20), // m6
@@ -321,19 +321,19 @@ Deno.test("count", () => {
     new Pai(40), // p2
     new Pai(44), // p3
     new Pai(48), // p4
-    new Pai(52)  // p5
+    new Pai(52), // p5
   ];
   const hand1Shanten = new Shanten(hand1);
   expect(hand1Shanten.count()).toBe(0);
 
   // Chiitoi hand (1 shanten)
   const hand2 = [
-    new Pai(0),  // m1
-    new Pai(0),  // m1
-    new Pai(4),  // m2
-    new Pai(4),  // m2
-    new Pai(8),  // m3
-    new Pai(8),  // m3
+    new Pai(0), // m1
+    new Pai(0), // m1
+    new Pai(4), // m2
+    new Pai(4), // m2
+    new Pai(8), // m3
+    new Pai(8), // m3
     new Pai(12), // m4
     new Pai(16), // m5
     new Pai(16), // m5
@@ -341,18 +341,18 @@ Deno.test("count", () => {
     new Pai(20), // m6
     new Pai(24), // m7
     new Pai(28), // m8
-    new Pai(32)  // m9
+    new Pai(32), // m9
   ];
   const hand2Shanten = new Shanten(hand2);
   expect(hand2Shanten.count()).toBe(0);
 
   // Kokushi hand (3 shanten)
   const hand3 = [
-    new Pai(0),   // m1
-    new Pai(32),  // m9
-    new Pai(36),  // p1
-    new Pai(68),  // p9
-    new Pai(72),  // s1
+    new Pai(0), // m1
+    new Pai(32), // m9
+    new Pai(36), // p1
+    new Pai(68), // p9
+    new Pai(72), // s1
     new Pai(104), // s9
     new Pai(108), // z1 (東)
     new Pai(112), // z2 (南)
@@ -361,7 +361,7 @@ Deno.test("count", () => {
     new Pai(124), // z5 (白)
     new Pai(128), // z6 (発)
     new Pai(132), // z7 (中)
-    new Pai(132)  // z7 (中)
+    new Pai(132), // z7 (中)
   ];
   const hand3Shanten = new Shanten(hand3);
   expect(hand3Shanten.count()).toBe(-1);
@@ -378,8 +378,14 @@ Deno.test("count", () => {
     new Pai(96), // s7
   ];
   const hand4Sets = [
-    new PaiSet({pais: [new Pai(0), new Pai(0), new Pai(0)], type: PaiSetType.MINKO}), // minko m1
-    new PaiSet({pais: [new Pai(4), new Pai(4), new Pai(4)], type: PaiSetType.MINKO}), // minko m2
+    new PaiSet({
+      pais: [new Pai(0), new Pai(0), new Pai(0)],
+      type: PaiSetType.MINKO,
+    }), // minko m1
+    new PaiSet({
+      pais: [new Pai(4), new Pai(4), new Pai(4)],
+      type: PaiSetType.MINKO,
+    }), // minko m2
   ];
   const hand4Shanten = new Shanten(hand4, hand4Sets);
   expect(hand4Shanten.count()).toBe(4);

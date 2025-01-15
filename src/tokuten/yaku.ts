@@ -713,7 +713,9 @@ export class YakuFactory {
     return [];
   }
 
-  isDraUra({ paiSets, paiHead, paiChitoi, paiDoraUra }: internalParams): Yaku[] {
+  isDraUra(
+    { paiSets, paiHead, paiChitoi, paiDoraUra }: internalParams,
+  ): Yaku[] {
     const all = [
       ...paiSets.map((e) => e.pais).flat(),
       ...paiHead,
