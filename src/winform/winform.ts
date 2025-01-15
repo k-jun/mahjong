@@ -33,14 +33,19 @@ export class WinFormFactory {
   create(params: WinFormInputParams): WinForm[] {
     const wins: WinForm[] = [];
     const paiMap = new Map<string, number>();
+    const { paiRest, paiLast } = params;
 
-    for (const pai of params.paiRest) {
+    const copyRest = [...paiRest];
+    copyRest.push(paiLast);
+    copyRest.sort((a, b) => a.id - b.id);
+
+    for (const pai of copyRest) {
       paiMap.set(pai.fmt, (paiMap.get(pai.fmt) || 0) + 1);
     }
 
-    wins.push(...this.createChitoi({ ...params, paiMap }));
-    wins.push(...this.createKokushi({ ...params, paiMap }));
-    wins.push(...this.createNormal({ ...params, paiMap }));
+    wins.push(...this.createChitoi({ ...params, paiMap, paiRest: copyRest }));
+    wins.push(...this.createKokushi({ ...params, paiMap, paiRest: copyRest }));
+    wins.push(...this.createNormal({ ...params, paiMap, paiRest: copyRest }));
     return wins;
   }
 

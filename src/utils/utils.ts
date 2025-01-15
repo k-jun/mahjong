@@ -164,8 +164,8 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   }
   const paiLast = new Pai(Number(attrs["machi"]));
   const paiRest =
-    attrs["hai"].split(",").map((e: string) => new Pai(Number(e))) ??
-      [];
+    attrs["hai"].split(",").map((e: string) => new Pai(Number(e))) ?? [];
+  paiRest.splice(paiRest.findIndex((e) => e.id == paiLast.id), 1)[0];
 
   f({
     paiBakaze,
