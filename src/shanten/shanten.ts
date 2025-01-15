@@ -2,12 +2,13 @@ import { Pai, PaiType } from "../pai/pai.ts";
 import { PaiSet } from "../paiset/paiset.ts";
 
 export class Shanten {
-  private pais: Pai[];
-  private sets: PaiSet[];
+  private paiRest: Pai[];
+  private paiSets: PaiSet[];
 
-  constructor(pais: Pai[], sets: PaiSet[] = []) {
-    this.pais = pais;
-    this.sets = sets;
+  constructor(params: { paiRest: Pai[]; paiSets: PaiSet[] }) {
+    const { paiRest, paiSets } = params;
+    this.paiRest = paiRest;
+    this.paiSets = paiSets;
   }
 
   count(): number {
@@ -112,7 +113,7 @@ export class Shanten {
     for (const m of mr) {
       for (const p of pr) {
         for (const s of sr) {
-          const set = m[0] + p[0] + s[0] + zr[0] + this.sets.length;
+          const set = m[0] + p[0] + s[0] + zr[0] + this.paiSets.length;
           let pair = m[1] + p[1] + s[1] + zr[1];
 
           if (set + pair >= 4) {
@@ -132,14 +133,14 @@ export class Shanten {
   calcNormalShanten(): number {
     // ref: https://blog.kobalab.net/entry/20151217/1450357254
     const nums = new Map<string, number>();
-    let min = this.calcAllAB(this.pais);
-    for (const pi of this.pais) {
+    let min = this.calcAllAB(this.paiRest);
+    for (const pi of this.paiRest) {
       nums.set(pi.val, (nums.get(pi.val) || 0) + 1);
     }
 
     for (const v of nums.keys()) {
       if ((nums.get(v) || 0) >= 2) {
-        const paisCopy = [...this.pais];
+        const paisCopy = [...this.paiRest];
         paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
         paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
         const r = this.calcAllAB(paisCopy) - 1;
@@ -155,7 +156,7 @@ export class Shanten {
     const pairs = new Set<string>();
     const kinds = new Set<string>();
 
-    for (const pai of this.pais) {
+    for (const pai of this.paiRest) {
       if (kinds.has(pai.val)) {
         pairs.add(pai.val);
       }
@@ -169,7 +170,7 @@ export class Shanten {
     const terminals = new Set<string>();
     let hasPair = false;
 
-    for (const pai of this.pais) {
+    for (const pai of this.paiRest) {
       if (pai.isYaochuHai()) {
         if (terminals.has(pai.val)) {
           hasPair = true;
