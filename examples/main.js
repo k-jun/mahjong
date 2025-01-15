@@ -1,4 +1,4 @@
-import { Pai, PaiSet, Shanten, Tokuten } from "@k-jun/mahjong";
+import { _PaiSet, _Shanten, Pai, Tokuten } from "@k-jun/mahjong";
 
 const tokuten = new Tokuten({
   options: {
