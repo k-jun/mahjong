@@ -8,7 +8,10 @@ type WinFormInputParams = {
   paiLast: Pai;
 };
 
-export type WinFormOutputParams = WinFormNormalParams & WinFormChitoiParams & WinFormKokushiParams;
+export type WinFormOutputParams =
+  & WinFormNormalParams
+  & WinFormChitoiParams
+  & WinFormKokushiParams;
 
 export type WinFormNormalParams = {
   paiHead: Pai[];
@@ -19,12 +22,12 @@ export type WinFormNormalParams = {
 export type WinFormChitoiParams = {
   paiChitoi?: Pai[];
   paiLast: Pai;
-}
+};
 
 export type WinFormKokushiParams = {
   paiKokushi?: Pai[];
   paiLast: Pai;
-}
+};
 
 export class WinFormFactory {
   create(params: WinFormInputParams): WinForm[] {
@@ -66,7 +69,10 @@ export class WinFormFactory {
       params.paiSets.length == 0
     ) {
       wins.push(
-        new Kokushimuso({ paiKokushi: params.paiRest, paiLast: params.paiLast }),
+        new Kokushimuso({
+          paiKokushi: params.paiRest,
+          paiLast: params.paiLast,
+        }),
       );
     }
     return wins;
