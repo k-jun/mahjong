@@ -8,16 +8,16 @@ import { Yaku, YakuFactory } from "./yaku.ts";
 export type params = {
   options: {
     isTsumo: boolean;
-    isRichi: boolean;
-    isDabururichi: boolean;
-    isIppatsu: boolean;
-    isHaitei: boolean;
-    isHoutei: boolean;
-    isChankan: boolean;
-    isRinshankaiho: boolean;
-    isChiho: boolean;
-    isTenho: boolean;
     isOya: boolean;
+    isRichi?: boolean;
+    isDabururichi?: boolean;
+    isIppatsu?: boolean;
+    isHaitei?: boolean;
+    isHoutei?: boolean;
+    isChankan?: boolean;
+    isRinshankaiho?: boolean;
+    isChiho?: boolean;
+    isTenho?: boolean;
   };
   paiBakaze: Pai;
   paiJikaze: Pai;
@@ -197,6 +197,10 @@ export class Tokuten {
     let pointPrt = 0;
     let pointCdn = 0;
     let pointSum = 0;
+
+    if (params.han == 0 || params.fu == 0) {
+      return { pointSum, pointPrt, pointCdn };
+    }
     if (this.params.options.isTsumo) {
       [pointCdn, pointPrt] = this.calcTsumoPoint(params);
       pointSum = this.params.options.isOya
@@ -207,11 +211,7 @@ export class Tokuten {
       pointSum = pointCdn;
     }
 
-    return {
-      pointSum,
-      pointPrt,
-      pointCdn,
-    };
+    return { pointSum, pointPrt, pointCdn };
   }
 
   // [fromChild, fromOya]
