@@ -1,5 +1,5 @@
-// @deno-types="npm:@types/jsdom"
-import { JSDOM } from "npm:jsdom";
+// @deno-types="npm:@types/jsdom@21.1.7"
+import { JSDOM } from "npm:jsdom@26.0.0";
 import { Pai } from "../pai/pai.ts";
 import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 import { yakus as constantYakus } from "../constant/constant.ts";

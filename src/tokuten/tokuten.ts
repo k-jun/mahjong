@@ -46,7 +46,7 @@ export class Tokuten {
     this.params = params;
   }
 
-  count() {
+  count(): paramsOutput {
     const winFactory = new WinFormFactory();
     const yakuFactory = new YakuFactory();
     const wins = winFactory.create({ ...this.params });
