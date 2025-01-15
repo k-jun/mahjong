@@ -23,7 +23,7 @@ export const fixtures = async (
 ) => {
   let cnt = 0;
   for await (const d of Deno.readDir("./fixtures/")) {
-    if (d.name == ".gitkeep") {
+    if (!d.isDirectory) {
       continue;
     }
     for await (const f of Deno.readDir(`./fixtures/${d.name}`)) {
@@ -36,7 +36,6 @@ export const fixtures = async (
       if (text == "") {
         continue;
       }
-
       const dom = new JSDOM(text, { contentType: "text/xml" });
       let state: state = {
         isYonmaAriAriAka: false,
@@ -121,7 +120,11 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   if (attrs["yaku"]) {
     const a = attrs["yaku"].split(",");
     for (let i = 0; i < a.length; i += 2) {
-      yakus.push({ str: constantYakus[Number(a[i])], val: Number(a[i + 1]), yakuman: false });
+      yakus.push({
+        str: constantYakus[Number(a[i])],
+        val: Number(a[i + 1]),
+        yakuman: false,
+      });
     }
   }
 
