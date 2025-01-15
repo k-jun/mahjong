@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "node main.ts"
+  },
+  "dependencies": {
+    "@k-jun/mahjong": "npm:@jsr/k-jun__mahjong@^0.2.0"
+  }
+}

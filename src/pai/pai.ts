@@ -11,9 +11,14 @@ export class Pai {
   id: number;
   val: string;
 
-  constructor(id: number) {
-    this.id = id;
-    this.val = pais[id];
+  constructor(val: number | string) {
+    if (typeof val == "string") {
+      this.id = pais.indexOf(val);
+      this.val = val;
+      return;
+    }
+    this.id = val;
+    this.val = pais[val];
   }
 
   get typ(): PaiType {

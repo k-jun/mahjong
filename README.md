@@ -5,7 +5,7 @@ Scilla は麻雀の得点計算ライブラリです。和了時における翻�
 ## Install
 
 ```bash
-
+npx jsr add @k-jun/mahjong
 ```
 
 ## Test

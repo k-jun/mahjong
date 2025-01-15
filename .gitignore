@@ -1,3 +1,5 @@
 fixtures/*
 !fixtures/README.md
 .vscode/
+
+examples/node_modules/*

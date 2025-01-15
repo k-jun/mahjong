@@ -6,6 +6,10 @@ Deno.test("Pai Class", () => {
   const pai = new Pai(0);
   expect(pai.id).toBe(0);
   expect(pai.val).toBe(pais[0]);
+
+  const paiFromString = new Pai("m1");
+  expect(paiFromString.id).toBe(0);
+  expect(paiFromString.val).toBe("m1");
 });
 
 Deno.test("Pai typ", () => {
