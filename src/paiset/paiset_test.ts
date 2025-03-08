@@ -3,17 +3,18 @@ import { MachiType, PaiSet, PaiSetType, Player } from "./paiset.ts";
 import { expect } from "jsr:@std/expect";
 
 Deno.test("PaiSet constructor", () => {
-  const pais = [new Pai(0), new Pai(4), new Pai(8)]; // m1, m2, m3
+  const paiRest = [new Pai(4), new Pai(8)]; // m1, m2, m3
+  const paiCall = [new Pai(0)];
   const paiset = new PaiSet({
-    pais,
+    paiRest,
+    paiCall,
     type: PaiSetType.MINSHUN,
-    nakiIdx: 1,
     fromWho: Player.SHIMOCHA,
   });
 
-  expect(paiset.pais).toEqual(pais);
+  expect(paiset.paiRest).toEqual(paiRest);
+  expect(paiset.paiCall).toEqual(paiCall);
   expect(paiset.type).toBe(PaiSetType.MINSHUN);
-  expect(paiset.nakiIdx).toBe(1);
   expect(paiset.fromWho).toBe(Player.SHIMOCHA);
 });
 
@@ -21,9 +22,8 @@ Deno.test("PaiSet machi types", () => {
   // Test RYANMEN machi
   const ryanmenPais = [new Pai(0), new Pai(4), new Pai(8)]; // m1, m2, m3
   const ryanmenSet = new PaiSet({
-    pais: ryanmenPais,
+    paiRest: ryanmenPais,
     type: PaiSetType.ANSHUN,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(ryanmenSet.machi({ pai: new Pai(0) })).toBe(MachiType.RYANMEN); // m4
@@ -31,9 +31,8 @@ Deno.test("PaiSet machi types", () => {
   // Test KANCHAN machi
   const kanchanPais = [new Pai(0), new Pai(4), new Pai(8)]; // m1, m2, m3
   const kanchanSet = new PaiSet({
-    pais: kanchanPais,
+    paiRest: kanchanPais,
     type: PaiSetType.ANSHUN,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(kanchanSet.machi({ pai: new Pai(4) })).toBe(MachiType.KANCHAN); // m2
@@ -41,9 +40,8 @@ Deno.test("PaiSet machi types", () => {
   // Test PENCHAN machi
   const penchanPais = [new Pai(24), new Pai(28), new Pai(32)]; // m8, m9
   const penchanSet = new PaiSet({
-    pais: penchanPais,
+    paiRest: penchanPais,
     type: PaiSetType.ANSHUN,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(penchanSet.machi({ pai: new Pai(24) })).toBe(MachiType.PENCHAN); // m7
@@ -51,30 +49,29 @@ Deno.test("PaiSet machi types", () => {
   // Test SHANPON machi
   const shanponPais = [new Pai(0), new Pai(4), new Pai(8)]; // m1, m1, m1
   const shanponSet = new PaiSet({
-    pais: shanponPais,
+    paiRest: shanponPais,
     type: PaiSetType.ANKO,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(shanponSet.machi({ pai: new Pai(0) })).toBe(MachiType.SHANPON); // m1
 });
 
 Deno.test("PaiSet isOpen/isClose", () => {
-  const pais = [new Pai(0), new Pai(4), new Pai(8)];
+  const paiRest = [new Pai(4), new Pai(8)]; // m1, m2, m3
+  const paiCall = [new Pai(0)];
 
   const openSet = new PaiSet({
-    pais,
+    paiRest,
+    paiCall,
     type: PaiSetType.MINSHUN,
-    nakiIdx: 1,
     fromWho: Player.SHIMOCHA,
   });
   expect(openSet.isOpen()).toBe(true);
   expect(openSet.isClose()).toBe(false);
 
   const closedSet = new PaiSet({
-    pais,
+    paiRest: [...paiRest, ...paiCall],
     type: PaiSetType.ANSHUN,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(closedSet.isOpen()).toBe(false);
@@ -82,21 +79,17 @@ Deno.test("PaiSet isOpen/isClose", () => {
 });
 
 Deno.test("PaiSet isKotsu/isShuntsu", () => {
-  const pais = [new Pai(0), new Pai(4), new Pai(8)];
-
   const kotsuSet = new PaiSet({
-    pais,
+    paiRest: [],
     type: PaiSetType.MINKO,
-    nakiIdx: 1,
     fromWho: Player.SHIMOCHA,
   });
   expect(kotsuSet.isKotsu()).toBe(true);
   expect(kotsuSet.isShuntsu()).toBe(false);
 
   const shuntsuSet = new PaiSet({
-    pais,
+    paiRest: [],
     type: PaiSetType.MINSHUN,
-    nakiIdx: 1,
     fromWho: Player.SHIMOCHA,
   });
   expect(shuntsuSet.isKotsu()).toBe(false);
@@ -105,17 +98,16 @@ Deno.test("PaiSet isKotsu/isShuntsu", () => {
 
 Deno.test("PaiSet isKantsu", () => {
   const kantsuSet = new PaiSet({
-    pais: [new Pai(0), new Pai(1), new Pai(2), new Pai(3)],
+    paiRest: [new Pai(2), new Pai(3)],
+    paiCall: [new Pai(0), new Pai(1)],
     type: PaiSetType.KAKAN,
-    nakiIdx: -1,
     fromWho: Player.JICHA,
   });
   expect(kantsuSet.isKantsu()).toBe(true);
 
   const notKantsuSet = new PaiSet({
-    pais: [new Pai(0), new Pai(1), new Pai(2)],
-    type: PaiSetType.MINSHUN,
-    nakiIdx: -1,
+    paiRest: [new Pai(0), new Pai(1), new Pai(2)],
+    type: PaiSetType.ANSHUN,
     fromWho: Player.JICHA,
   });
   expect(notKantsuSet.isKantsu()).toBe(false);

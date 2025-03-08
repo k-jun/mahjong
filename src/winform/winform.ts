@@ -165,9 +165,8 @@ export class WinFormFactory {
         )[0];
         doneCopy.push(
           new PaiSet({
-            pais: [a, b, c],
+            paiRest: [a, b, c],
             type: PaiSetType.ANKO,
-            nakiIdx: -1,
             fromWho: 0,
           }),
         );
@@ -209,9 +208,8 @@ export class WinFormFactory {
         )[0];
         doneCopy.push(
           new PaiSet({
-            pais: [a, b, c],
+            paiRest: [a, b, c],
             type: PaiSetType.ANSHUN,
-            nakiIdx: -1,
             fromWho: 0,
           }),
         );

@@ -76,3 +76,9 @@ console.log(tokuten.count());
 ```bash
 deno test -A
 ```
+
+## Release
+
+```bash
+deno publish
+```

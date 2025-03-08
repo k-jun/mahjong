@@ -211,7 +211,9 @@ const _parseM = (m: number): PaiSet => {
     ];
 
     const pais = h.map((e) => new Pai(e));
-    return new PaiSet({ type: PaiSetType.MINSHUN, pais, nakiIdx, fromWho });
+    const paiCall = pais.splice(nakiIdx, 1);
+    const paiRest = pais;
+    return new PaiSet({ type: PaiSetType.MINSHUN, paiRest, paiCall, fromWho });
   } else if (m & (1 << 3) || m & (1 << 4)) {
     // 刻子、加槓
     const extra = (m & 0x0060) >> 5;
@@ -245,12 +247,16 @@ const _parseM = (m: number): PaiSet => {
     if (m & (1 << 3)) {
       // 刻子
       const pais = h.map((e) => new Pai(e));
-      return new PaiSet({ type: PaiSetType.MINKO, pais, nakiIdx, fromWho });
+      const paiCall = pais.splice(nakiIdx, 1);
+      const paiRest = pais;
+      return new PaiSet({ type: PaiSetType.MINKO, paiRest, paiCall, fromWho });
     } else {
       // 加槓
       h.unshift(t + extra);
       const pais = h.map((e) => new Pai(e));
-      return new PaiSet({ type: PaiSetType.KAKAN, pais, nakiIdx, fromWho });
+      const paiCall = pais.splice(nakiIdx, 1);
+      const paiRest = pais;
+      return new PaiSet({ type: PaiSetType.KAKAN, paiRest, paiCall, fromWho });
     }
   } else {
     let hai0 = (m & 0xFF00) >> 8;
@@ -259,12 +265,9 @@ const _parseM = (m: number): PaiSet => {
       // 暗槓
       const h = [t, t + 1, t + 2, t + 3];
       const pais = h.map((e) => new Pai(e));
-      return new PaiSet({
-        type: PaiSetType.ANKAN,
-        pais,
-        nakiIdx: 0,
-        fromWho,
-      });
+      const paiCall = pais.splice(0, 1);
+      const paiRest = pais;
+      return new PaiSet({ type: PaiSetType.ANKAN, paiRest, paiCall, fromWho });
     } else {
       // 大明槓
       const h = [t, t, t];
@@ -302,12 +305,9 @@ const _parseM = (m: number): PaiSet => {
       }
       h.unshift(hai0);
       const pais = h.map((e) => new Pai(e));
-      return new PaiSet({
-        type: PaiSetType.MINKAN,
-        pais,
-        nakiIdx: 0,
-        fromWho,
-      });
+      const paiCall = pais.splice(0, 1);
+      const paiRest = pais;
+      return new PaiSet({ type: PaiSetType.MINKAN, paiRest, paiCall, fromWho });
     }
   }
 };

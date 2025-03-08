@@ -433,11 +433,11 @@ Deno.test("count", () => {
   ];
   const hand4Sets = [
     new PaiSet({
-      pais: [new Pai(0), new Pai(0), new Pai(0)],
+      paiRest: [new Pai(0), new Pai(0), new Pai(0)],
       type: PaiSetType.MINKO,
     }), // minko m1
     new PaiSet({
-      pais: [new Pai(4), new Pai(4), new Pai(4)],
+      paiRest: [new Pai(4), new Pai(4), new Pai(4)],
       type: PaiSetType.MINKO,
     }), // minko m2
   ];

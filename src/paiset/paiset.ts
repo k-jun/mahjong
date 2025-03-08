@@ -28,23 +28,29 @@ export enum Player {
 }
 
 export class PaiSet {
+  paiRest: Pai[];
+  paiCall: Pai[];
   pais: Pai[];
   type: PaiSetType;
-  nakiIdx: number;
   fromWho: Player;
 
   constructor(
-    { pais, type, nakiIdx = -1, fromWho = Player.JICHA }: {
-      pais: Pai[];
+    { paiRest, paiCall = [], type, fromWho = Player.JICHA }: {
+      paiRest: Pai[];
+      paiCall?: Pai[];
       type: PaiSetType;
-      nakiIdx?: number;
       fromWho?: Player;
     },
   ) {
-    this.pais = pais;
+    this.paiRest = paiRest;
+    this.paiCall = paiCall;
+
     this.type = type;
     this.fromWho = fromWho;
-    this.nakiIdx = nakiIdx;
+
+    const all = [...this.paiRest, ...this.paiCall];
+    all.sort((a, b) => a.id - b.id);
+    this.pais = all;
   }
 
   machi({ pai }: { pai: Pai }): MachiType {
