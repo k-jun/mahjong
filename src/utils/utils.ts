@@ -92,10 +92,10 @@ const _init = (e: Element, s: state): state => {
 };
 
 const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
-  const attrs: { [key: string]: string } = {};
+  const attrs = new Map<string, string>();
   for (let i = 0; i < e.attributes.length; i++) {
     const attr = e.attributes[i];
-    attrs[attr.name] = attr.value;
+    attrs.set(attr.name, attr.value);
   }
   const kazes = [
     new Pai(4 * 3 * 9), // 東
@@ -104,21 +104,21 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     new Pai(4 * 3 * 9 + 12), // 北
   ];
   const paiBakaze = kazes[Math.floor(s.kyoku / 4)];
-  const paiJikaze = kazes[(Number(attrs["who"]) - (s.kyoku % 4) + 4) % 4];
+  const paiJikaze = kazes[(Number(attrs.get("who")) - (s.kyoku % 4) + 4) % 4];
 
-  const paiDora = attrs["doraHai"].split(",").map((e) =>
-    new Pai(Number(e)).next()
-  );
+  const paiDora =
+    attrs.get("doraHai")?.split(",").map((e) => new Pai(Number(e)).next()) ??
+      [];
 
   const paiDoraUra: Pai[] = [];
-  if (attrs["doraHaiUra"]) {
-    attrs["doraHaiUra"].split(",").forEach((e) => {
+  if (attrs.get("doraHaiUra")) {
+    attrs.get("doraHaiUra")?.split(",").forEach((e) => {
       paiDoraUra.push(new Pai(Number(e)).next());
     });
   }
   const yakus: { str: string; val: number; yakuman: boolean }[] = [];
-  if (attrs["yaku"]) {
-    const a = attrs["yaku"].split(",");
+  if (attrs.get("yaku")) {
+    const a = attrs.get("yaku")?.split(",") ?? [];
     for (let i = 0; i < a.length; i += 2) {
       yakus.push({
         str: constantYakus[Number(a[i])],
@@ -128,8 +128,8 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     }
   }
 
-  if (attrs["yakuman"]) {
-    attrs["yakuman"].split(",").forEach((e) => {
+  if (attrs.get("yakuman")) {
+    attrs.get("yakuman")?.split(",").forEach((e) => {
       const str = constantYakus[Number(e)];
       const val = 1;
       // 天鳳は単一の役満でのダブル役満を採用していない。
@@ -142,7 +142,7 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
     });
   }
 
-  const isTsumo = attrs["who"] == attrs["fromWho"];
+  const isTsumo = attrs.get("who") == attrs.get("fromWho");
   const isIppatsu = yakus.some((e) => e.str == "一発");
   const isRichi = yakus.some((e) => e.str == "立直");
   const isDabururichi = yakus.some((e) => e.str == "両立直");
@@ -152,19 +152,19 @@ const _agari = (e: Element, s: state, f: (arg0: params) => void) => {
   const isRinshankaiho = yakus.some((e) => e.str == "嶺上開花");
   const isChiho = yakus.some((e) => e.str == "地和");
   const isTenho = yakus.some((e) => e.str == "天和");
-  const isOya = s.oya == Number(attrs["who"]);
+  const isOya = s.oya == Number(attrs.get("who"));
 
-  const fu = Number(attrs["ten"]?.split(",")[0]);
-  const ten = Number(attrs["ten"]?.split(",")[1]);
+  const fu = Number(attrs.get("ten")?.split(",")[0]);
+  const ten = Number(attrs.get("ten")?.split(",")[1]);
   const paiSets: PaiSet[] = [];
-  if (attrs["m"]) {
-    for (const mi of attrs["m"].split(",")) {
+  if (attrs.get("m")) {
+    attrs.get("m")?.split(",").forEach((mi) => {
       paiSets.push(_parseM(Number(mi)));
-    }
+    });
   }
-  const paiLast = new Pai(Number(attrs["machi"]));
+  const paiLast = new Pai(Number(attrs.get("machi")));
   const paiRest =
-    attrs["hai"].split(",").map((e: string) => new Pai(Number(e))) ?? [];
+    attrs.get("hai")?.split(",").map((e: string) => new Pai(Number(e))) ?? [];
   paiRest.splice(paiRest.findIndex((e) => e.id == paiLast.id), 1)[0];
 
   f({

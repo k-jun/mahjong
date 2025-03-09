@@ -137,12 +137,13 @@ export class WinFormFactory {
       }
 
       // 刻子
-      const cnt = pais.reduce<{ [key: string]: number }>((mp, e) => {
-        mp[e.fmt] = e.fmt in mp ? mp[e.fmt] + 1 : 1;
+      const cnt = pais.reduce<Map<string, number>>((mp, e) => {
+        mp.set(e.fmt, (mp.get(e.fmt) ?? 0) + 1);
         return mp;
-      }, {});
+      }, new Map());
+
       let kotsu = "";
-      for (const [k, v] of Object.entries(cnt)) {
+      for (const [k, v] of cnt) {
         if (v >= 3) {
           kotsu = k;
           break;

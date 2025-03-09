@@ -54,16 +54,16 @@ export class Pai {
     if (this.typ != PaiType.JIHAI) {
       return this.val;
     }
-    const mapper: { [key: string]: string } = {
-      "z1": "東",
-      "z2": "南",
-      "z3": "西",
-      "z4": "北",
-      "z5": "白",
-      "z6": "發",
-      "z7": "中",
-    };
-    return mapper[this.val];
+    const mapper = new Map<string, string>([
+      ["z1", "東"],
+      ["z2", "南"],
+      ["z3", "西"],
+      ["z4", "北"],
+      ["z5", "白"],
+      ["z6", "發"],
+      ["z7", "中"],
+    ]);
+    return mapper.get(this.val) ?? "";
   }
   next(): Pai {
     if (this.num == 9) {
