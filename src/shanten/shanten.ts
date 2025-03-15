@@ -1,11 +1,18 @@
 import { Pai, PaiType } from "../pai/pai.ts";
 import { PaiSet } from "../paiset/paiset.ts";
 
+export type ShantenInput = {
+  paiRest: Pai[];
+  paiSets: PaiSet[];
+};
+
+export type ShantenOutput = number;
+
 export class Shanten {
   private paiRest: Pai[];
   private paiSets: PaiSet[];
 
-  constructor(params: { paiRest: Pai[]; paiSets: PaiSet[] }) {
+  constructor(params: ShantenInput) {
     const { paiRest, paiSets } = params;
     this.paiRest = paiRest;
     this.paiSets = paiSets;

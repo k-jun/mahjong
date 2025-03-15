@@ -4,14 +4,14 @@ import { Pai } from "../pai/pai.ts";
 import { PaiSet, PaiSetType } from "../paiset/paiset.ts";
 import { yakus as constantYakus } from "../constant/constant.ts";
 
-import { params as tokutenParams } from "../tokuten/tokuten.ts";
+import { TokutenInput } from "../tokuten/tokuten.ts";
 type state = {
   isYonmaAriAriAka: boolean;
   oya: number;
   kyoku: number;
 };
 
-export type params = tokutenParams & {
+export type params = TokutenInput & {
   yakus: { str: string; val: number; yakuman: boolean }[];
   fu: number;
   ten: number;

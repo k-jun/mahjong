@@ -1,10 +1,10 @@
 import { expect } from "jsr:@std/expect";
 import { fixtures } from "../utils/utils.ts";
 import { WinFormFactory } from "../winform/winform.ts";
-import { params, Tokuten } from "./tokuten.ts";
+import { Tokuten, TokutenInput } from "./tokuten.ts";
 import { YakuFactory } from "./yaku.ts";
 
-const common = (params: params): {
+const common = (params: TokutenInput): {
   maxHan: number;
   maxFu: number;
   isYakuman: boolean;

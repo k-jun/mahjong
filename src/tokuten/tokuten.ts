@@ -5,7 +5,7 @@ import { WinFormFactory, WinFormOutputParams } from "../winform/winform.ts";
 
 import { Yaku, YakuFactory } from "./yaku.ts";
 
-export type params = {
+export type TokutenInput = {
   options: {
     isTsumo: boolean;
     isOya: boolean;
@@ -28,7 +28,7 @@ export type params = {
   paiLast: Pai;
 };
 
-export type paramsOutput = {
+export type TokutenOutput = {
   han: number;
   fu: number;
   pointSum: number;
@@ -37,16 +37,16 @@ export type paramsOutput = {
   yakus: Yaku[];
 };
 
-export type internalParams = params & WinFormOutputParams;
+export type internalParams = TokutenInput & WinFormOutputParams;
 
 export class Tokuten {
-  private params: params;
+  private params: TokutenInput;
 
-  constructor(params: params) {
+  constructor(params: TokutenInput) {
     this.params = params;
   }
 
-  count(): paramsOutput {
+  count(): TokutenOutput {
     const winFactory = new WinFormFactory();
     const yakuFactory = new YakuFactory();
     const wins = winFactory.create({ ...this.params });
@@ -300,7 +300,7 @@ export class Tokuten {
     if (han >= 5) {
       return isOya ? 12000 : 8000;
     }
-    
+
     const scoresOya = new Map<number, number[]>([
       [25, [0, 2400, 4800, 9600]],
       [30, [1500, 2900, 5800, 11600]],
