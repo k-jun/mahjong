@@ -2,7 +2,7 @@ import { expect } from "jsr:@std/expect";
 import { fixtures } from "../utils/utils.ts";
 import { WinFormFactory } from "../winform/winform.ts";
 import { Tokuten, TokutenInput } from "./tokuten.ts";
-import { YakuFactory } from "./yaku.ts";
+import { Yaku, YakuFactory } from "./yaku.ts";
 import { Pai } from "../pai/pai.ts";
 
 const common = (params: TokutenInput): {
@@ -150,4 +150,46 @@ Deno.test("kokushimusou", () => {
 
   const result = tokuten.count();
   expect(result.pointSum).toBe(48000); // Yakuman value for dealer ron
+});
+
+Deno.test("sanankoOrPinfuIpeko", () => {
+  // Test kokushi musou (国士無双)
+  const hand = [
+    new Pai("m4"),
+    new Pai("m5"),
+    new Pai("p5"),
+    new Pai("p5"),
+    new Pai("s2"),
+    new Pai("s2"),
+    new Pai("s2"), // 東
+    new Pai("s3"), // 南
+    new Pai("s3"), // 西
+    new Pai("s3"), // 北
+    new Pai("s4"), // 白
+    new Pai("s4"), // 発
+    new Pai("s4"), // 中
+  ];
+
+  const tokuten = new Tokuten({
+    paiRest: hand,
+    paiBakaze: new Pai("z1"),
+    paiJikaze: new Pai("z1"),
+    paiLast: new Pai("m3"),
+    paiDora: [],
+    paiDoraUra: [],
+    paiSets: [],
+    options: {
+      isOya: false,
+      isTsumo: false,
+    },
+  });
+
+  const result = tokuten.count();
+  expect(result.han).toEqual(3);
+  expect(result.pointSum).toEqual(6400);
+  expect(result.fu).toEqual(50);
+  expect(result.yakus).toEqual([
+    new Yaku({ str: "断幺九", val: 1 }),
+    new Yaku({ str: "三暗刻", val: 2 }),
+  ]);
 });

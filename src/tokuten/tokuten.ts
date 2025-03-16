@@ -70,8 +70,11 @@ export class Tokuten {
           maxFu = 0;
         }
         maxHan = han;
-        maxFu = Math.max(maxFu, this.calcFu({ ...win }));
-        yakus = mbyYaku;
+        const mbyFu = this.calcFu({ ...win });
+        if (mbyFu > maxFu) {
+          maxFu = mbyFu;
+          yakus = mbyYaku;
+        }
       }
     }
     const { pointSum, pointPrt, pointCdn } = this.calcPoint({
