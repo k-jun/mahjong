@@ -198,7 +198,7 @@ export class Tokuten {
     let pointCdn = 0;
     let pointSum = 0;
 
-    if (params.han == 0 || params.fu == 0) {
+    if ((params.han == 0 || params.fu == 0) && !params.isYakuman) {
       return { pointSum, pointPrt, pointCdn };
     }
     if (this.params.options.isTsumo) {
