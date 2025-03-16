@@ -447,3 +447,27 @@ Deno.test("count", () => {
   });
   expect(hand4Shanten.count()).toBe(4);
 });
+
+Deno.test("count2", () => {
+  // Normal hand (2 shanten)
+  const hand1 = [
+    new Pai("m3"),
+    new Pai("m3"),
+    new Pai("m7"),
+    new Pai("m7"),
+    new Pai("p4"),
+    new Pai("p4"),
+    new Pai("pr"),
+    new Pai("p5"),
+    new Pai("p9"),
+    new Pai("p9"),
+    new Pai("s4"),
+    new Pai("s4"),
+    new Pai("p8"),
+  ];
+  const hand1Shanten = new Shanten({
+    paiRest: hand1,
+    paiSets: [],
+  });
+  expect(hand1Shanten.count()).toBe(0);
+});

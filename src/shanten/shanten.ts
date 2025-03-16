@@ -104,7 +104,7 @@ export class Shanten {
     const zr = [0, 0];
     const zm = new Map<string, number>();
     for (const pi of zp) {
-      zm.set(pi.val, (zm.get(pi.val) || 0) + 1);
+      zm.set(pi.fmt, (zm.get(pi.fmt) || 0) + 1);
     }
     for (const v of zm.keys()) {
       if ((zm.get(v) || 0) >= 3) {
@@ -142,14 +142,14 @@ export class Shanten {
     const nums = new Map<string, number>();
     let min = this.calcAllAB(this.paiRest);
     for (const pi of this.paiRest) {
-      nums.set(pi.val, (nums.get(pi.val) || 0) + 1);
+      nums.set(pi.fmt, (nums.get(pi.fmt) || 0) + 1);
     }
 
     for (const v of nums.keys()) {
       if ((nums.get(v) || 0) >= 2) {
         const paisCopy = [...this.paiRest];
-        paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
-        paisCopy.splice(paisCopy.findIndex((e) => e.val == v), 1);
+        paisCopy.splice(paisCopy.findIndex((e) => e.fmt == v), 1);
+        paisCopy.splice(paisCopy.findIndex((e) => e.fmt == v), 1);
         const r = this.calcAllAB(paisCopy) - 1;
         if (r < min) {
           min = r;
@@ -164,10 +164,10 @@ export class Shanten {
     const kinds = new Set<string>();
 
     for (const pai of this.paiRest) {
-      if (kinds.has(pai.val)) {
-        pairs.add(pai.val);
+      if (kinds.has(pai.fmt)) {
+        pairs.add(pai.fmt);
       }
-      kinds.add(pai.val);
+      kinds.add(pai.fmt);
     }
 
     return 6 - pairs.size + Math.max(0, 7 - kinds.size);
@@ -179,10 +179,10 @@ export class Shanten {
 
     for (const pai of this.paiRest) {
       if (pai.isYaochuHai()) {
-        if (terminals.has(pai.val)) {
+        if (terminals.has(pai.fmt)) {
           hasPair = true;
         } else {
-          terminals.add(pai.val);
+          terminals.add(pai.fmt);
         }
       }
     }
