@@ -119,9 +119,7 @@ export class WinFormFactory {
     const result: PaiSet[][] = [];
     const loop = ({ pais, done }: { pais: Pai[]; done: PaiSet[] }) => {
       if (pais.length == 0) {
-        done = done.sort((a, b) => {
-          return a.type - b.type;
-        });
+        done = done.sort((a, b) => a.type - b.type);
         const chkDone = done.map((e) => e.pais.map((e) => e.fmt)).flat().join(
           ",",
         );

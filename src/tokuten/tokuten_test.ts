@@ -193,3 +193,43 @@ Deno.test("sanankoOrPinfuIpeko", () => {
     new Yaku({ str: "三暗刻", val: 2 }),
   ]);
 });
+
+Deno.test("sananko2", () => {
+  const hand = [
+    new Pai("m1"),
+    new Pai("m1"),
+    new Pai("m1"),
+    new Pai("m2"),
+    new Pai("m3"),
+    new Pai("m4"),
+    new Pai("m4"),
+    new Pai("p1"),
+    new Pai("p1"),
+    new Pai("p1"),
+    new Pai("p8"),
+    new Pai("p8"),
+    new Pai("p8"),
+  ];
+
+  const tokuten = new Tokuten({
+    paiRest: hand,
+    paiBakaze: new Pai("z1"),
+    paiJikaze: new Pai("z1"),
+    paiLast: new Pai("m4"),
+    paiDora: [],
+    paiDoraUra: [],
+    paiSets: [],
+    options: {
+      isOya: false,
+      isTsumo: false,
+    },
+  });
+
+  const result = tokuten.count();
+  expect(result.han).toEqual(2);
+  expect(result.pointSum).toEqual(3900);
+  expect(result.fu).toEqual(60);
+  expect(result.yakus).toEqual([
+    new Yaku({ str: "三暗刻", val: 2 }),
+  ]);
+});

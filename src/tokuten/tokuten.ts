@@ -57,7 +57,7 @@ export class Tokuten {
     let yakus: Yaku[] = [];
     for (const win of wins) {
       const mbyYaku = yakuFactory.create({ ...this.params, ...win });
-      if (mbyYaku.every((yaku) => yaku.yakuman)) {
+      if (mbyYaku.length > 0 && mbyYaku.every((yaku) => yaku.yakuman)) {
         maxHan = mbyYaku.reduce((a, b) => a + b.val, 0);
         maxFu = Math.max(maxFu, this.calcFu({ ...win }));
         isYakuman = true;
