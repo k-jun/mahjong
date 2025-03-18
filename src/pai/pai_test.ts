@@ -129,3 +129,23 @@ Deno.test("Pai isAka", () => {
   const s5 = new Pai(89); // s5
   expect(s5.isAka()).toBe(false);
 });
+
+Deno.test("Pai isKazeHai", () => {
+  const manzu = new Pai(0); // m1
+  expect(manzu.isKazeHai()).toBe(false);
+
+  const ton = new Pai(108); // z1 (東)
+  expect(ton.isKazeHai()).toBe(true);
+
+  const nan = new Pai(112); // z2 (南) 
+  expect(nan.isKazeHai()).toBe(true);
+
+  const sha = new Pai(116); // z3 (西)
+  expect(sha.isKazeHai()).toBe(true);
+
+  const pei = new Pai(120); // z4 (北)
+  expect(pei.isKazeHai()).toBe(true);
+
+  const haku = new Pai(128); // z5 (白)
+  expect(haku.isKazeHai()).toBe(false);
+});
