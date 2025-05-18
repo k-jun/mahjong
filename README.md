@@ -10,48 +10,70 @@ Mahjong は麻雀の得点計算ライブラリです。
 
 ```bash
 npx jsr add @k-jun/mahjong
+# or
+npm install @k-jun/mahjong
 ```
 
 ## Example
 
 ```ts
+import { Pai, PaiSet, PaiSetType, Player, Tokuten } from "@k-jun/mahjong";
+
 const tokuten = new Tokuten({
-  options: {
-    isOya: true,
-    isTsumo: true,
-  },
-  paiBakaze: new Pai("z1"),
-  paiJikaze: new Pai("z1"),
-  paiDora: [new Pai("z2")],
-  paiDoraUra: [new Pai("z2")],
-  paiRest: [
-    new Pai("m1"),
-    new Pai("m1"),
-    new Pai("m2"),
-    new Pai("m2"),
-    new Pai("m2"),
-    new Pai("m3"),
-    new Pai("m3"),
-    new Pai("m3"),
-    new Pai("z6"),
-    new Pai("z6"),
-  ],
-  paiLast: new Pai("m1"),
-  paiSets: [
-    new PaiSet(
-      {
-        pais: [
-          new Pai("m4"),
-          new Pai("m4"),
-          new Pai("m4"),
-        ],
-        nakiIdx: 1,
-        type: PaiSetType.MINKO,
-        fromWho: Player.SHIMOCHA,
-      },
-    ),
-  ],
+    options: {
+        isOya: true,
+        isTsumo: true,
+    },
+    paiBakaze: new Pai("z1"),
+    paiJikaze: new Pai("z1"),
+    paiDora: [new Pai("z2")],
+    paiDoraUra: [new Pai("z2")],
+    paiRest: [
+        new Pai("m1"),
+        new Pai("m1"),
+        new Pai("m2"),
+        new Pai("m2"),
+        new Pai("m2"),
+        new Pai("m3"),
+        new Pai("m3"),
+        new Pai("m3"),
+        new Pai("z6"),
+        new Pai("z6"),
+    ],
+    paiLast: new Pai("m1"),
+    paiSets: [
+        new PaiSet(
+            {
+                paiRest: [
+                    new Pai("m4"),
+                    new Pai("m4"),
+                ],
+                paiCall: [
+                    new Pai("m4"),
+                ],
+                type: PaiSetType.MINKO,
+                fromWho: Player.SHIMOCHA,
+            },
+        ),
+    ],
 });
+console.log(tokuten.count());
+```
+
+```bash
+{
+  han: 6,
+  fu: 50,
+  pointSum: 18000,
+  pointPrt: 0,
+  pointCdn: 6000,
+  yakus: [
+    Yaku { str: "対々和", val: 2, yakuman: false },
+    Yaku { str: "三暗刻", val: 2, yakuman: false },
+    Yaku { str: "混一色", val: 2, yakuman: false },
+    Yaku { str: "裏ドラ", val: 0, yakuman: false }
+  ]
+}
 console.log(tokuten.count());
 ```
 

@@ -53,6 +53,34 @@ export class PaiSet {
     this.pais = all;
   }
 
+  equals(other: PaiSet): boolean {
+    if (this.type != other.type) {
+      return false;
+    }
+    if (this.pais.length != other.pais.length) {
+      return false;
+    }
+    if (this.pais.some((pai, idx) => pai.id != other.pais[idx].id)) {
+      return false;
+    }
+    if (this.paiCall.length != other.paiCall.length) {
+      return false;
+    }
+    if (this.paiCall.some((pai, idx) => pai.id != other.paiCall[idx].id)) {
+      return false;
+    }
+    if (this.paiRest.length != other.paiRest.length) {
+      return false;
+    }
+    if (this.paiRest.some((pai, idx) => pai.id != other.paiRest[idx].id)) {
+      return false;
+    }
+    if (this.fromWho != other.fromWho) {
+      return false;
+    }
+    return true;
+  }
+
   machi({ pai }: { pai: Pai }): MachiType {
     if (
       [

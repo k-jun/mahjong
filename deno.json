@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.42.1",
+    "jsdom": "npm:jsdom@^26.1.0"
+  }
+}
