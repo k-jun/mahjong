@@ -103,4 +103,8 @@ deno test -A
 
 ```bash
 deno publish
+# or
+deno run -A scripts/build_npm.ts x.x.x
+cd npm && npm publish
 ```
+
