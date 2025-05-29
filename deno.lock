@@ -4,11 +4,14 @@
     "jsr:@david/code-block-writer@^13.0.2": "13.0.3",
     "jsr:@deno/cache-dir@0.20": "0.20.0",
     "jsr:@deno/dnt@~0.42.1": "0.42.1",
+    "jsr:@std/assert@^1.0.11": "1.0.11",
     "jsr:@std/bytes@^1.0.5": "1.0.5",
+    "jsr:@std/expect@*": "1.0.13",
     "jsr:@std/fmt@1": "1.0.7",
     "jsr:@std/fmt@^1.0.3": "1.0.7",
     "jsr:@std/fs@1": "1.0.17",
     "jsr:@std/fs@^1.0.6": "1.0.17",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/io@0.225": "0.225.2",
     "jsr:@std/path@1": "1.0.9",
     "jsr:@std/path@^1.0.8": "1.0.9",
@@ -41,8 +44,21 @@
         "jsr:@ts-morph/bootstrap"
       ]
     },
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
     "@std/bytes@1.0.5": {
       "integrity": "4465dd739d7963d964c809202ebea6d5c6b8e3829ef25c6a224290fbb8a1021e"
+    },
+    "@std/expect@1.0.13": {
+      "integrity": "d8e236c7089cd9fcf5e6032f27dadc3db6349d0aee48c15bc71d717bca5baa42",
+      "dependencies": [
+        "jsr:@std/assert",
+        "jsr:@std/internal"
+      ]
     },
     "@std/fmt@1.0.7": {
       "integrity": "2a727c043d8df62cd0b819b3fb709b64dd622e42c3b1bb817ea7e6cc606360fb"
@@ -52,6 +68,9 @@
       "dependencies": [
         "jsr:@std/path@^1.0.9"
       ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
     "@std/io@0.225.2": {
       "integrity": "3c740cd4ee4c082e6cfc86458f47e2ab7cb353dc6234d5e9b1f91a2de5f4d6c7",

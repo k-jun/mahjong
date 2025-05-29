@@ -77,6 +77,18 @@ export class Pai {
     }
     return new Pai((this.id - (this.id % 4)) + 4);
   }
+  prev(): Pai {
+    if (this.num == 1) {
+      return new Pai((this.id - (this.id % 4)) + 4 * 8);
+    }
+    if (this.val == "z1") {
+      return new Pai((this.id - (this.id % 4)) + 4 * 3);
+    }
+    if (this.val == "z5") {
+      return new Pai((this.id - (this.id % 4)) + 4 * 2);
+    }
+    return new Pai((this.id - (this.id % 4)) - 4);
+  }
 
   isJihai(): boolean {
     return this.typ == PaiType.JIHAI ? true : false;
@@ -257,13 +269,13 @@ export const PaiKaze: Pai[] = [
   new Pai("z2"),
   new Pai("z3"),
   new Pai("z4"),
-]
+];
 
 export const PaiSangen: Pai[] = [
   new Pai("z5"),
   new Pai("z6"),
   new Pai("z7"),
-]
+];
 
 export const PaiAllKind: Pai[] = [
   new Pai(0), // m1
@@ -301,3 +313,4 @@ export const PaiAllKind: Pai[] = [
   new Pai(128), // z6 green
   new Pai(132), // z7 red
 ];
+

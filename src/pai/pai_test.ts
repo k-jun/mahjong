@@ -49,6 +49,27 @@ Deno.test("Pai next", () => {
   expect(z7.next().fmt).toBe("z5");
 });
 
+Deno.test("Pai prev", () => {
+  const pai2 = new Pai(4); // m2
+  expect(pai2.prev().fmt).toBe("m1");
+
+  const pai1 = new Pai(0); // m1
+  expect(pai1.prev().fmt).toBe("m9");
+
+  const z2 = new Pai(112); // z2 (南)
+  expect(z2.prev().fmt).toBe("z1");
+
+  const z1 = new Pai(108); // z1 (東)
+  expect(z1.prev().fmt).toBe("z4");
+
+  const z6 = new Pai(128); // z6 (発)
+  expect(z6.prev().fmt).toBe("z5");
+
+  const z5 = new Pai(124); // z5 (白)
+  expect(z5.prev().fmt).toBe("z7");
+});
+
+
 Deno.test("Pai isJihai", () => {
   const manzu = new Pai(0);
   expect(manzu.isJihai()).toBe(false);
