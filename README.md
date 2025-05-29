@@ -102,7 +102,7 @@ deno test -A
 ## Release
 
 ```bash
-deno publish
+deno publish --config jsr.json
 # or
 deno run -A scripts/build_npm.ts x.x.x
 cd npm && npm publish
